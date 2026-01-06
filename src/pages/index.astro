@@ -16,19 +16,20 @@ const posts = (await getCollection("posts")).sort((a, b) => b.data.date.valueOf(
       <span class="badge">Markdown</span>
     </div>
   </section>
-
+  
   <section class="grid">
-    {posts.map((p) => (
-      <a class="card" href={`${base}/writing/${p.slug}`}>
-        <div>
-          <div class="meta">
-            {p.data.hero && <img class="thumb" src={`${base}/${p.data.hero}`} alt="" />}
-          </div>
-          <h2>{p.data.title}</h2>
-          <p>{p.data.description}</p>
+  {posts.map((p) => (
+    <a class="card" href={`${base}/writing/${p.slug}`}>
+      <div class="card-body">
+        <div class="meta">
+          {p.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
         </div>
-        {p.data.hero && <img class="thumb" src={`${base}${p.data.hero}`} alt="" />}
-      </a>
-    ))}
-  </section>
+        <h2>{p.data.title}</h2>
+        <p>{p.data.description}</p>
+      </div>
+
+      {p.data.hero && <img class="thumb" src={`${base}/${p.data.hero}`} alt="" loading="lazy" />}
+    </a>
+  ))}
+</section>
 </BaseLayout>

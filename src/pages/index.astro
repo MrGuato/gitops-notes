@@ -1,16 +1,38 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 
+const posts = [
+  {
+    title: "FluxCD + Linkding: First App in My k3s Cluster",
+    date: "Jan 3, 2026",
+    excerpt: "Lessons learned from deploying Linkding with GitOps. What broke and how I fixed it.",
+    href: "/writing/flux-linkding",
+    thumb: "/posts/2026-01-03/hero.png",
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="GitOps Notes">
+  <section class="hero">
+    <h1>GitOps Notes</h1>
+    <p>Weekly build logs on Kubernetes, FluxCD, security tooling, and lessons learned.</p>
+    <div class="badges">
+      <span class="badge">Weekly</span>
+      <span class="badge">GitHub Pages</span>
+      <span class="badge">Markdown</span>
+    </div>
+  </section>
+
+  <section class="grid">
+    {posts.map((p) => (
+      <a class="card" href={p.href}>
+        <div>
+          <div class="meta">{p.date}</div>
+          <h2>{p.title}</h2>
+          <p>{p.excerpt}</p>
+        </div>
+        <img class="thumb" src={p.thumb} alt="" />
+      </a>
+    ))}
+  </section>
+</BaseLayout>

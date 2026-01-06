@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="FluxCD + Linkding">
+  <div class="meta">January 3, 2026 · 5 min read</div>
+  <h1 class="post-title">FluxCD + Linkding: First App in My k3s Cluster</h1>
+
+  <img src="/posts/2026-01-03/hero.png" alt="" />
+  <div class="caption">Linkding deployed through GitOps, not “kubectl apply chaos.”</div>
+
+  <div class="callout">
+    <strong>What I changed this week</strong>
+    <ul>
+      <li>Repo structure for apps/base + apps/staging</li>
+      <li>Persistent storage for Linkding</li>
+      <li>Flux reconciliation stabilized</li>
+    </ul>
+  </div>
+
+  <div class="prose">
+    <h2>Debugging the deployment</h2>
+    <p>Flux errors were caused by a bad kustomize path and a missing PVC metadata.name. Fixing those made the reconcile go green.</p>
+
+    <pre><code>flux get kustomizations -n flux-system
+kubectl get pods -A</code></pre>
+
+    <h2>Next week</h2>
+    <div class="callout">
+      <strong>Plan</strong>
+      <ul>
+        <li>Add a second app</li>
+        <li>Set up alerting for Flux failures</li>
+        <li>Document a repeatable rollout checklist</li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>

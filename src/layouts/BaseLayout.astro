@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+const { title = "GitOps Notes" } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="nav-inner">
+        <div class="brand"><a href="/">GitOps Notes</a></div>
+        <div>
+          <a href="/writing">Writing</a>
+          <a href="/about">About</a>
+        </div>
+      </div>
+    </div>
+
+    <main class="container">
+      <slot />
+      <div class="footer">Built on GitHub Pages. If it’s not committed, it doesn’t exist.</div>
+    </main>
+  </body>
+</html>

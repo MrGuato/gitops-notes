@@ -1,3 +1,10 @@
+---
+title: "Outlook HTML Email Signature Guide (Enterprise‑Safe)"
+date: 2026-01-22
+description: "How to build a professional, Outlook-compatible HTML signature for enterprise environments."
+hero: "assets/logo.png" # (optional—remove if not needed)
+---
+
 # Outlook HTML Email Signature Guide (Enterprise‑Safe)
 
 This repository shows **how to build a professional, Outlook‑compatible HTML email signature** that works across:

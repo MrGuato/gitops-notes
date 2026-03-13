@@ -6,6 +6,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 <html lang="en">
   <head>
+    <script is:inline>
+      (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved) document.documentElement.setAttribute('data-theme', saved);
+      })();
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title}</title>
@@ -20,9 +26,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     <div class="nav">
       <div class="nav-inner">
         <div class="brand"><a href={`${base}/`}>MrGuato's GitOps Notes</a></div>
-        <div>
+        <div style="display:flex;align-items:center;">
           <a href={`${base}/writing`}>Writing</a>
           <a href={`${base}/about`}>About</a>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
         </div>
       </div>
     </div>
@@ -31,5 +38,25 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
       <slot />
       <footer class="footer">Built on GitHub Pages &mdash; Built by Jonathan with love ❤️. If it's not committed, it doesn't exist.</footer>
     </main>
+
+    <script is:inline>
+      (function() {
+        var btn = document.getElementById('theme-toggle');
+        function getTheme() {
+          var saved = localStorage.getItem('theme');
+          if (saved) return saved;
+          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        function applyTheme(theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme);
+          btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+        applyTheme(getTheme());
+        btn.addEventListener('click', function() {
+          applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
+        });
+      })();
+    </script>
   </body>
 </html>

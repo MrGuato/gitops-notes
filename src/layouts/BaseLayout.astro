@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-const { title = "GitOps Notes" } = Astro.props;
+const { title = "GitOps Notes", description = "Building. Breaking. Fixing. Securing. Learning — one post at a time." } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
@@ -9,14 +9,18 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="MrGuato's GitOps Notes" />
   </head>
 
   <body>
     <div class="nav">
       <div class="nav-inner">
-        <div class="brand"><a href="/">MrGuato's GitOps Notes</a></div>
+        <div class="brand"><a href={`${base}/`}>MrGuato's GitOps Notes</a></div>
         <div>
-          <a href={`${base}/`}>GitOps Notes</a>
           <a href={`${base}/writing`}>Writing</a>
           <a href={`${base}/about`}>About</a>
         </div>
@@ -25,7 +29,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
     <main class="container">
       <slot />
-      <div class="footer">  Built on GitHub Pages. Built by Jonathan with love ❤️. If it’s not committed, it doesn’t exist.</div>
+      <footer class="footer">Built on GitHub Pages &mdash; Built by Jonathan with love ❤️. If it's not committed, it doesn't exist.</footer>
     </main>
   </body>
 </html>

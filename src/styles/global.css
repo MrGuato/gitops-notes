@@ -10,7 +10,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0d1117;
     --text: #e6edf3;
     --muted: #8b949e;
@@ -18,12 +18,26 @@
     --card: rgba(22, 27, 34, .80);
     --shadow: 0 12px 32px rgba(0, 0, 0, .30);
   }
-  .nav { background: rgba(13, 17, 23, .82); }
-  .callout { background: rgba(240, 246, 252, .04); }
-  .card:hover { box-shadow: 0 18px 40px rgba(0, 0, 0, .40); }
-  .prose pre { background: #161b22; color: #e6edf3; }
-  .prose :not(pre) > code { background: #161b22; }
+  :root:not([data-theme="light"]) .nav { background: rgba(13, 17, 23, .82); }
+  :root:not([data-theme="light"]) .callout { background: rgba(240, 246, 252, .04); }
+  :root:not([data-theme="light"]) .card:hover { box-shadow: 0 18px 40px rgba(0,0,0,.40); }
+  :root:not([data-theme="light"]) .prose pre { background: #161b22; color: #e6edf3; }
+  :root:not([data-theme="light"]) .prose :not(pre) > code { background: #161b22; }
 }
+
+[data-theme="dark"] {
+  --bg: #0d1117;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --border: rgba(240, 246, 252, .10);
+  --card: rgba(22, 27, 34, .80);
+  --shadow: 0 12px 32px rgba(0, 0, 0, .30);
+}
+[data-theme="dark"] .nav { background: rgba(13, 17, 23, .82); }
+[data-theme="dark"] .callout { background: rgba(240, 246, 252, .04); }
+[data-theme="dark"] .card:hover { box-shadow: 0 18px 40px rgba(0,0,0,.40); }
+[data-theme="dark"] .prose pre { background: #161b22; color: #e6edf3; }
+[data-theme="dark"] .prose :not(pre) > code { background: #161b22; }
 
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
@@ -73,6 +87,20 @@ a:hover{ text-decoration:underline; text-underline-offset:4px; }
   font-size:14px;
 }
 .nav a:hover{ color:var(--text); text-decoration:none; }
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+  transition: color 120ms ease, border-color 120ms ease;
+  line-height: 1;
+  margin-left: 14px;
+}
+.theme-toggle:hover { color: var(--text); }
 
 .hero{ padding:40px 0 24px; }
 .hero h1{

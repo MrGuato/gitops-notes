@@ -1,12 +1,54 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+const description = "Security engineer, GitOps practitioner, and lifelong learner based in Boston, MA.";
 ---
 
-<BaseLayout title="About">
+<BaseLayout title="About" description={description}>
   <h1 class="post-title">About</h1>
   <div class="prose">
     <p>
-      I’m documenting my GitOps journey: k3s, FluxCD, and production-minded habits from a security engineer’s perspective.
+      Hey, I'm <strong>Jonathan DeLeon</strong> — a security engineer based in <strong>Boston, MA</strong>,
+      fighting evil one commit at a time. I specialize in cloud security, Kubernetes, and building
+      production-minded infrastructure with a security-first mindset.
     </p>
+    <p>
+      This blog is my build log: raw notes from the trenches of learning GitOps, k3s, FluxCD, and
+      everything in between. If it's not committed, it doesn't exist.
+    </p>
+
+    <div class="callout">
+      <strong>Currently working on</strong>
+      Preparing for Azure Security Engineer and KCNA/KCSA certifications, while deepening my GitOps
+      practice with k3s and FluxCD.
+    </div>
+
+    <h2>Certifications & Education</h2>
+    <div class="badges">
+      <span class="badge">CISM®</span>
+      <span class="badge">CompTIA CCAP</span>
+      <span class="badge">CSIS</span>
+      <span class="badge">WGU — Network Engineering & Cybersecurity</span>
+    </div>
+
+    <h2>Tools & Stack</h2>
+    <div class="badges">
+      <span class="badge">Kubernetes / k3s</span>
+      <span class="badge">FluxCD</span>
+      <span class="badge">Azure</span>
+      <span class="badge">Microsoft Sentinel</span>
+      <span class="badge">Splunk / ELK</span>
+      <span class="badge">Nessus / Rapid7</span>
+      <span class="badge">Palo Alto Networks</span>
+      <span class="badge">Zero Trust</span>
+      <span class="badge">NIST CSF</span>
+      <span class="badge">CIS v8</span>
+    </div>
+
+    <h2>Find me</h2>
+    <ul>
+      <li><a href="https://github.com/MrGuato" target="_blank" rel="noopener">GitHub — MrGuato</a></li>
+      <li><a href="https://www.linkedin.com/in/jonathan-deleon-cism/" target="_blank" rel="noopener">LinkedIn — jonathan-deleon-cism</a></li>
+      <li><a href="https://hashnode.com/@mrcyberleon" target="_blank" rel="noopener">Hashnode — @mrcyberleon</a></li>
+    </ul>
   </div>
 </BaseLayout>

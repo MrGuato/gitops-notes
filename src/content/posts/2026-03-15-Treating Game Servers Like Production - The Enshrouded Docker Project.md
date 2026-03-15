@@ -1,10 +1,7 @@
 ---
 title: "Treating Game Servers Like Production: The Enshrouded Docker Project"
 date: 2026-03-15
-tags: [docker, devops, gaming, steamcmd, wine, homelab, ghcr, github-actions, linux]
-project: enshrouded-docker
-repo: https://github.com/MrGuato/enshrouded-docker
-status: published
+description: "Enshrouded Docker Container Project"
 hero: "posts/2026-03-15/enshrouded_docker_blog_hero.svg"
 ---
 

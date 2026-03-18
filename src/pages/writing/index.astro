@@ -6,6 +6,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const posts = (await getCollection("posts")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+// Collect all unique tags
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 ---
 
 <BaseLayout title="Writing">
@@ -14,9 +17,24 @@ const posts = (await getCollection("posts")).sort(
     <p>All build logs and notes, published through Git.</p>
   </section>
 
-  <section class="grid">
+  <!-- Tag filter bar -->
+  <div class="tag-filter-bar">
+    <button class="tag-filter active" data-tag="all">All</button>
+    {allTags.map((tag) => (
+      <button class="tag-filter" data-tag={tag}>{tag}</button>
+    ))}
+  </div>
+
+  <!-- Post count -->
+  <div class="posts-count" id="posts-count">{posts.length} posts</div>
+
+  <section class="grid" id="posts-grid">
     {posts.map((p) => (
-      <a class="card" href={`${base}/writing/${p.slug}`}>
+      <a
+        class="card"
+        href={`${base}/writing/${p.slug}`}
+        data-tags={JSON.stringify(p.data.tags ?? [])}
+      >
         <div class="card-body">
           <div class="meta">
             {p.data.date.toLocaleDateString("en-US", {
@@ -24,6 +42,9 @@ const posts = (await getCollection("posts")).sort(
               month: "short",
               day: "numeric",
             })}
+            {p.data.tags && p.data.tags.slice(0, 2).map((tag: string) => (
+              <span class="tag tag-sm">{tag}</span>
+            ))}
           </div>
           <h2>{p.data.title}</h2>
           <p>{p.data.description}</p>
@@ -41,3 +62,52 @@ const posts = (await getCollection("posts")).sort(
     ))}
   </section>
 </BaseLayout>
+
+<script>
+  // Read tag from URL on page load
+  const params = new URLSearchParams(window.location.search);
+  const initialTag = params.get("tag") ?? "all";
+
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".tag-filter");
+  const cards = document.querySelectorAll<HTMLElement>(".card");
+  const countEl = document.getElementById("posts-count");
+
+  function filterByTag(tag: string) {
+    let visible = 0;
+    cards.forEach((card) => {
+      const tags: string[] = JSON.parse(card.dataset.tags ?? "[]");
+      const show = tag === "all" || tags.includes(tag);
+      card.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+
+    buttons.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.tag === tag);
+    });
+
+    if (countEl) {
+      countEl.textContent = tag === "all"
+        ? `${visible} posts`
+        : `${visible} post${visible !== 1 ? "s" : ""} tagged "${tag}"`;
+    }
+  }
+
+  // Apply initial tag from URL
+  filterByTag(initialTag);
+
+  // Activate buttons on click
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tag = btn.dataset.tag ?? "all";
+      filterByTag(tag);
+      // Update URL without reload
+      const url = new URL(window.location.href);
+      if (tag === "all") {
+        url.searchParams.delete("tag");
+      } else {
+        url.searchParams.set("tag", tag);
+      }
+      history.replaceState(null, "", url.toString());
+    });
+  });
+</script>

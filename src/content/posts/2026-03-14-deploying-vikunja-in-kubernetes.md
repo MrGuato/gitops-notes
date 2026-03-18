@@ -3,6 +3,7 @@ title: "Deploying Vikunja on a Raspberry Pi k3s Cluster with FluxCD and Cloudfla
 date: 2026-03-14
 description: "GitOps on a Raspberry Pi k3s cluster with FluxCD, and my second app: Vikunja."
 hero: "posts/2026-03-14/03.14.26.hero.svg"
+tags: ["kubernetes", "gitops", "k3s", "fluxcd", "cloudflare", "self-hosted"]
 ---
  
 I have been running a Raspberry Pi 4 as a single-node k3s cluster managed entirely with FluxCD and GitOps principles. The idea is simple: if it is not committed to Git, it does not exist on the cluster. No manual kubectl apply for workloads, no configuration drift, just Git as the source of truth.

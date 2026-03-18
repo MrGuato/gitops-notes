@@ -2,7 +2,7 @@
 title: "Outlook HTML Email Signature Guide (Enterprise‑Safe)"
 date: 2026-01-22
 description: "How to build a professional, Outlook-compatible HTML signature for enterprise environments."
-hero: "assets/logo.png" # (optional—remove if not needed)
+tags: ["web", "email", "enterprise", "html"]
 ---
 
 # Outlook HTML Email Signature Guide (Enterprise‑Safe)

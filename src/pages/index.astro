@@ -2,34 +2,109 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, ""); // <-- removes trailing slash if present
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const posts = (await getCollection("posts")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = posts[0];
+const recent = posts.slice(1, 4);
 ---
 
 <BaseLayout title="GitOps Notes">
-  <section class="hero">
-    <h1>Security Engineer’s Build Log</h1>
-    <p>Building. Breaking. Fixing. Securing. Learning — one post at a time.</p>
-    <div class="badges">
-      <span class="badge">Weekly</span>
-      <span class="badge">GitHub Pages</span>
-      <span class="badge">Markdown</span>
+  <!-- Profile / README-style header -->
+  <section class="profile-header">
+    <div class="profile-avatar">JD</div>
+    <div class="profile-info">
+      <h1 class="profile-name">Jonathan DeLeon <span class="profile-handle">@MrGuato</span></h1>
+      <p class="profile-bio">
+        Security Engineer · GitOps Practitioner · Builder. Building. Breaking. Fixing. Securing. Learning — one commit at a time.
+      </p>
+      <div class="profile-meta">
+        <span class="profile-stat">📍 Boston, MA</span>
+        <span class="profile-stat">🔐 CISM®</span>
+        <span class="profile-stat">☁️ Kubernetes / k3s / FluxCD</span>
+      </div>
+      <div class="profile-links">
+        <a class="profile-link" href="https://github.com/MrGuato" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a class="profile-link" href="https://www.linkedin.com/in/jonathan-deleon-cism/" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 1.146C0 .514.53 0 1.183 0h13.634C15.47 0 16 .514 16 1.146v13.708c0 .632-.53 1.146-1.183 1.146H1.183C.53 16 0 15.486 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
+          LinkedIn
+        </a>
+        <a class="profile-link" href="https://hashnode.com/@mrcyberleon" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="8" r="8"/></svg>
+          Hashnode
+        </a>
+      </div>
     </div>
   </section>
-  
-  <section class="grid">
-  {posts.map((p) => (
-    <a class="card" href={`${base}/writing/${p.slug}`}>
-      <div class="card-body">
-        <div class="meta">
-          {p.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
-        </div>
-        <h2>{p.data.title}</h2>
-        <p>{p.data.description}</p>
-      </div>
 
-      {p.data.hero && <img class="thumb" src={`${base}/${p.data.hero}`} alt="" loading="lazy" />}
-    </a>
-  ))}
-</section>
+  <!-- About this repo -->
+  <section class="readme-section">
+    <div class="readme-header">
+      <span class="readme-icon">📖</span>
+      <span>README.md</span>
+    </div>
+    <div class="readme-body">
+      <p>This is my personal build log — raw notes, post-mortems, and deep-dives from running a home Kubernetes cluster, building security tooling, and learning in public. Everything is version-controlled and deployed via GitOps.</p>
+      <div class="readme-stats">
+        <span class="readme-stat"><strong>{posts.length}</strong> posts</span>
+        <span class="readme-stat"><strong>Astro</strong> framework</span>
+        <span class="readme-stat"><strong>GitHub Pages</strong> hosting</span>
+        <span class="readme-stat"><strong>GitOps</strong> workflow</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured post -->
+  {featured && (
+    <section class="featured-section">
+      <h2 class="section-label">Featured Post</h2>
+      <a class="featured-card" href={`${base}/writing/${featured.slug}`}>
+        {featured.data.hero && (
+          <div class="featured-img-wrap">
+            <img src={`${base}/${featured.data.hero}`} alt={featured.data.title} loading="lazy" />
+          </div>
+        )}
+        <div class="featured-content">
+          <div class="featured-meta">
+            {featured.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+            {featured.data.tags && featured.data.tags.slice(0, 3).map((tag: string) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+          <h3 class="featured-title">{featured.data.title}</h3>
+          <p class="featured-desc">{featured.data.description}</p>
+          <span class="featured-cta">Read post →</span>
+        </div>
+      </a>
+    </section>
+  )}
+
+  <!-- Recent posts -->
+  {recent.length > 0 && (
+    <section>
+      <div class="section-header">
+        <h2 class="section-label">Recent Posts</h2>
+        <a href={`${base}/writing`} class="section-more">View all →</a>
+      </div>
+      <div class="grid">
+        {recent.map((p) => (
+          <a class="card" href={`${base}/writing/${p.slug}`}>
+            <div class="card-body">
+              <div class="meta">
+                {p.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                {p.data.tags && p.data.tags.slice(0, 2).map((tag: string) => (
+                  <span class="tag tag-sm">{tag}</span>
+                ))}
+              </div>
+              <h2>{p.data.title}</h2>
+              <p>{p.data.description}</p>
+            </div>
+            {p.data.hero && <img class="thumb" src={`${base}/${p.data.hero}`} alt="" loading="lazy" />}
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>

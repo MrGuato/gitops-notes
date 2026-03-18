@@ -131,15 +131,9 @@ a:hover{ text-decoration:underline; text-underline-offset:4px; }
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-  color: #fff;
-  font-size: 22px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   flex: none;
-  letter-spacing: -0.02em;
+  border: 2px solid var(--border);
 }
 .profile-name {
   margin: 0 0 6px;
@@ -477,15 +471,9 @@ a:hover{ text-decoration:underline; text-underline-offset:4px; }
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   flex: none;
-  letter-spacing: -0.02em;
+  border: 1px solid var(--border);
 }
 .author-name {
   font-size: 14px;
@@ -512,15 +500,9 @@ a:hover{ text-decoration:underline; text-underline-offset:4px; }
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-  color: #fff;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
   flex: none;
-  letter-spacing: -0.02em;
+  border: 1px solid var(--border);
 }
 .author-card-name {
   font-size: 16px;

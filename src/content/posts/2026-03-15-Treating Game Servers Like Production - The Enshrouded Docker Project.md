@@ -6,8 +6,6 @@ hero: "posts/2026-03-15/enshrouded_docker_blog_hero.svg"
 tags: ["docker", "devops", "gaming", "self-hosted"]
 ---
 
-# Treating Game Servers Like Production: The Enshrouded Docker Project
-
 > *"Treat game servers like production services."*
 
 That's the philosophy behind `enshrouded-docker`, a containerized, auto-updating dedicated server for the survival game **Enshrouded**, built with the same DevOps rigor you'd bring to any real workload. This post walks through why this project exists, how the image is structured, the challenges we hit along the way (Wine, I'm looking at you), and what it feels like to apply production-grade thinking to something gamers just want to *work*.

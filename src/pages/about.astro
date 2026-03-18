@@ -1,36 +1,93 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const description = "Security engineer, GitOps practitioner, and lifelong learner based in Boston, MA.";
+const description = "Infrastructure & Security Engineer based in Massachusetts. Building, breaking, and automating since 2016.";
 ---
 
 <BaseLayout title="About" description={description}>
-  <h1 class="post-title">About</h1>
+  <h1 class="post-title">Hey, I'm Jonathan 👋</h1>
   <div class="prose">
     <p>
-      Hey, I'm <strong>Jonathan DeLeon</strong> — a security engineer based in <strong>Boston, MA</strong>,
-      fighting evil one commit at a time. I specialize in cloud security, Kubernetes, and building
-      production-minded infrastructure with a security-first mindset.
-    </p>
-    <p>
-      This blog is my build log: raw notes from the trenches of learning GitOps, k3s, FluxCD, and
-      everything in between. If it's not committed, it doesn't exist.
+      Infrastructure &amp; Security Engineer based out of Massachusetts. I've been in IT since 2016 —
+      started pulling cable and troubleshooting end-users at a nonprofit, worked through sysadmin and
+      cloud security roles, and gradually shifted my focus toward platform engineering, automation, and
+      security architecture. The through-line has always been the same: <strong>make it more reliable,
+      more secure, and more automated than I found it.</strong>
     </p>
 
+    <hr />
+
+    <h2>What I'm building</h2>
+
+    <h3>🖥️ <a href="https://github.com/MrGuato/pi-cluster" target="_blank" rel="noopener"><code>pi-cluster</code></a> — GitOps Homelab (Active)</h3>
+    <p>
+      A production-minded bare-metal ARM64 k3s cluster on a Raspberry Pi 4, managed entirely with
+      <strong>FluxCD</strong>. Git is the only source of truth — if it's not in the repo, it doesn't exist.
+    </p>
+    <ul>
+      <li><strong>Secrets:</strong> SOPS + age encryption, never plaintext in Git</li>
+      <li><strong>Ingress:</strong> Cloudflare Tunnel for zero-trust external access</li>
+      <li><strong>Apps:</strong> linkding, Ghost blog, Obsidian LiveSync (CouchDB) — all declarative, all reconciled</li>
+      <li><strong>Learned the hard way:</strong> recovered from a force-push that triggered Flux pruning and wiped my cloudflared deployment. <code>git reflog</code> is a skill.</li>
+    </ul>
     <div class="callout">
-      <strong>Currently working on</strong>
-      Preparing for Azure Security Engineer and KCNA/KCSA certifications, while deepening my GitOps
-      practice with k3s and FluxCD.
+      This is where I experiment before I deploy at work. The tooling here maps directly to what production platform engineering looks like.
     </div>
 
-    <h2>Certifications & Education</h2>
+    <h3>☁️ <a href="https://github.com/MrGuato" target="_blank" rel="noopener"><code>serverless-api</code></a> — AWS Serverless + Security</h3>
+    <p>
+      Hardened serverless API on AWS using least-privilege IAM, CORS controls, secrets management,
+      and fully automated deployment via CI/CD. No manual steps post-deploy.
+    </p>
+
+    <h3>🎮 <a href="https://github.com/MrGuato/enshrouded-docker" target="_blank" rel="noopener"><code>enshrouded-docker</code></a> — Containerized Game Server (DevOps)</h3>
+    <p>
+      Immutable container infrastructure with runtime auto-update logic, semantic versioning, CI/CD
+      publishing via GitHub Actions, and non-root execution with minimal attack surface. Built through
+      real CI/CD failures — Wine + Docker on Ubuntu 22.04 with WineHQ and Xvfb.
+    </p>
+
+    <h3>🔐 SOAR + EDR Integration — Security Automation</h3>
+    <p>
+      Automated security orchestration workflows integrating EDR with alerting pipelines — custom
+      detection rules, response playbooks, and hardened cloud VMs for telemetry analysis.
+    </p>
+
+    <hr />
+
+    <h2>On the roadmap</h2>
+    <p>Talos Linux · Cilium CNI · Kube-VIP · kube-prometheus-stack</p>
+    <p>Moving from "it works" to "it's observable, resilient, and enterprise-grade."</p>
+
+    <hr />
+
+    <h2>The journey (2016 → now)</h2>
+    <pre><code>2016 → IT Support / Helpdesk
+       Cabling, AV, break-fix, networking fundamentals
+
+2020 → Systems Administrator
+       M365 migrations, HIPAA security program, MDM at scale
+
+2022 → IT Support + Security
+       Vuln management, network config, L1 incident response
+
+2023 → Cloud Admin / Security
+       XDR rollout, CASB, IAM/Conditional Access, hybrid cloud
+
+2024 → Infrastructure Security Eng.
+       IaC, GitOps, DevSecOps, compliance frameworks</code></pre>
+    <p>The homelab is where the theory meets the metal.</p>
+
+    <hr />
+
+    <h2>Certifications &amp; Education</h2>
     <div class="badges">
       <span class="badge">CISM®</span>
       <span class="badge">CompTIA CCAP</span>
       <span class="badge">CSIS</span>
-      <span class="badge">WGU — Network Engineering & Cybersecurity</span>
+      <span class="badge">WGU — Network Engineering &amp; Cybersecurity</span>
     </div>
 
-    <h2>Tools & Stack</h2>
+    <h2>Tools &amp; Stack</h2>
     <div class="badges">
       <span class="badge">Kubernetes / k3s</span>
       <span class="badge">FluxCD</span>
@@ -48,7 +105,7 @@ const description = "Security engineer, GitOps practitioner, and lifelong learne
     <ul>
       <li><a href="https://github.com/MrGuato" target="_blank" rel="noopener">GitHub — MrGuato</a></li>
       <li><a href="https://www.linkedin.com/in/jonathan-deleon-cism/" target="_blank" rel="noopener">LinkedIn — jonathan-deleon-cism</a></li>
-      <li><a href="https://hashnode.com/@mrcyberleon" target="_blank" rel="noopener">Hashnode — @mrcyberleon</a></li>
+      <li><a href="https://cloud.mrcyberleon.org" target="_blank" rel="noopener">Cloud Site — cloud.mrcyberleon.org</a></li>
     </ul>
   </div>
 </BaseLayout>

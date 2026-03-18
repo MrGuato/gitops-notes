@@ -3,6 +3,7 @@ title: "Treating Game Servers Like Production: The Enshrouded Docker Project"
 date: 2026-03-15
 description: "Enshrouded Docker Container Project"
 hero: "posts/2026-03-15/enshrouded_docker_blog_hero.svg"
+tags: ["docker", "devops", "gaming", "self-hosted"]
 ---
 
 # Treating Game Servers Like Production: The Enshrouded Docker Project

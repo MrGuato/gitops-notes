@@ -3,6 +3,7 @@ title: "Kubernetes Journey: GitOps on Raspberry Pi with FluxCD"
 date: 2025-12-13
 description: "GitOps on a Raspberry Pi k3s cluster with FluxCD, and my first real workload: Linkding."
 hero: "posts/2025-12-13/hero.png"
+tags: ["kubernetes", "gitops", "k3s", "fluxcd", "raspberry-pi"]
 ---
 
 # Kubernetes Journey: GitOps on Raspberry Pi with FluxCD

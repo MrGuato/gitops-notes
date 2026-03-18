@@ -8,23 +8,70 @@ export async function getStaticPaths() {
 }
 
 const post = Astro.props;
-const { Content } = await post.render();
+const { Content, remarkPluginFrontmatter } = await post.render();
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const heroSrc = post.data.hero ? `${base}/${post.data.hero}` : null;
+
+// Estimate reading time (~200 wpm)
+const wordCount = post.body.split(/\s+/).length;
+const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <a href={`${base}/writing`} class="back-link">← Back to Writing</a>
 
-  <div class="post-meta">
-    {post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-  </div>
+  <!-- Tags above title -->
+  {post.data.tags && post.data.tags.length > 0 && (
+    <div class="post-tags-top">
+      {post.data.tags.map((tag: string) => (
+        <a href={`${base}/writing?tag=${tag}`} class="tag tag-lg">{tag}</a>
+      ))}
+    </div>
+  )}
 
   <h1 class="post-title">{post.data.title}</h1>
+
+  <!-- Meta bar -->
+  <div class="post-meta-bar">
+    <div class="post-meta-author">
+      <div class="author-avatar">JD</div>
+      <div>
+        <div class="author-name">Jonathan DeLeon</div>
+        <div class="author-sub">
+          {post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+          &nbsp;·&nbsp;{readingTime} min read
+        </div>
+      </div>
+    </div>
+  </div>
 
   {heroSrc && <img class="hero-img" src={heroSrc} alt={post.data.title} />}
 
   <div class="prose">
     <Content />
   </div>
+
+  <!-- Author card at bottom -->
+  <div class="author-card">
+    <div class="author-card-avatar">JD</div>
+    <div class="author-card-info">
+      <div class="author-card-name">Jonathan DeLeon <span class="author-card-handle">@MrGuato</span></div>
+      <p class="author-card-bio">Security Engineer based in Boston, MA. Building production-minded infrastructure with a security-first mindset. If it's not committed, it doesn't exist.</p>
+      <div class="author-card-links">
+        <a href="https://github.com/MrGuato" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/jonathan-deleon-cism/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://hashnode.com/@mrcyberleon" target="_blank" rel="noopener">Hashnode</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tags at bottom -->
+  {post.data.tags && post.data.tags.length > 0 && (
+    <div class="post-tags-bottom">
+      <span class="post-tags-label">Tagged:</span>
+      {post.data.tags.map((tag: string) => (
+        <a href={`${base}/writing?tag=${tag}`} class="tag tag-lg">{tag}</a>
+      ))}
+    </div>
+  )}
 </BaseLayout>

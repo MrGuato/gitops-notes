@@ -7,6 +7,7 @@ export const collections = {
       date: z.date(),
       description: z.string(),
       hero: z.string().optional(), // store WITHOUT leading slash
+      tags: z.array(z.string()).optional(),
     }),
   }),
 };

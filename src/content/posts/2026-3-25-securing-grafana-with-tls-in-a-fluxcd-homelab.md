@@ -2,9 +2,8 @@
 title: "Securing Grafana with TLS in a FluxCD GitOps Homelab"
 date: 2026-03-25
 description: "How I generated a self-signed TLS cert, SOPS-encrypted the Kubernetes secret, and shipped it through FluxCD GitOps to put HTTPS on my Grafana dashboard — without ever storing a plaintext secret in Git."
-pubDate: 2026-03-25
+hero: "posts/2026-03-25/gitops-tls-pipeline.svg"
 tags: ["kubernetes", "gitops", "flux", "sops", "grafana", "tls", "monitoring", "homelab"]
-draft: false
 ---
  
 ## The Goal

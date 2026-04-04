@@ -1,0 +1,90 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0c14"/>
+      <stop offset="100%" stop-color="#0d1017"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid -->
+  <g opacity="0.04">
+    <line x1="0" y1="0" x2="0" y2="630" stroke="#fff" stroke-width="1" transform="translate(60,0)"/>
+    <line x1="0" y1="0" x2="0" y2="630" stroke="#fff" stroke-width="1" transform="translate(120,0)"/>
+    <line x1="0" y1="0" x2="0" y2="630" stroke="#fff" stroke-width="1" transform="translate(180,0)"/>
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="#fff" stroke-width="1" transform="translate(0,60)"/>
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="#fff" stroke-width="1" transform="translate(0,120)"/>
+    <line x1="0" y1="0" x2="1200" y2="0" stroke="#fff" stroke-width="1" transform="translate(0,180)"/>
+  </g>
+
+  <!-- Accent bar -->
+  <rect x="0" y="0" width="4" height="630" fill="url(#accentGrad)"/>
+
+  <!-- Shield icon (backup/protection) -->
+  <g transform="translate(780, 120)">
+    <path d="M160,20 L160,180 Q160,300 0,360 Q-160,300 -160,180 L-160,20 Q0,-20 160,20Z" fill="url(#shieldGrad)" stroke="#6366f1" stroke-width="1.5" opacity="0.6"/>
+    <path d="M120,40 L120,170 Q120,260 0,310 Q-120,260 -120,170 L-120,40 Q0,10 120,40Z" fill="none" stroke="#6366f1" stroke-width="0.8" opacity="0.3"/>
+
+    <!-- Checkmark inside shield -->
+    <path d="M-50,140 L-15,175 L60,95" fill="none" stroke="#10b981" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+    <!-- Clock/schedule indicator -->
+    <circle cx="-100" cy="280" r="28" fill="#0a0c14" stroke="#f59e0b" stroke-width="1.5" opacity="0.7"/>
+    <line x1="-100" y1="280" x2="-100" y2="264" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <line x1="-100" y1="280" x2="-88" y2="286" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+    <text x="-100" y="324" text-anchor="middle" font-family="monospace" font-size="11" fill="#f59e0b" opacity="0.6">2:00 AM</text>
+
+    <!-- S3 bucket indicator -->
+    <rect x="60" y="262" width="80" height="36" rx="4" fill="#0a0c14" stroke="#f97316" stroke-width="1.5" opacity="0.7"/>
+    <text x="100" y="284" text-anchor="middle" font-family="monospace" font-size="12" fill="#f97316" opacity="0.8">MinIO</text>
+    <text x="100" y="312" text-anchor="middle" font-family="monospace" font-size="10" fill="#f97316" opacity="0.5">S3 Backend</text>
+  </g>
+
+  <!-- Data flow arrows -->
+  <g opacity="0.25">
+    <path d="M620,300 Q650,280 680,290" fill="none" stroke="#6366f1" stroke-width="1" stroke-dasharray="4,4"/>
+    <path d="M620,320 Q660,340 700,330" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="4,4"/>
+  </g>
+
+  <!-- Tech badges -->
+  <g transform="translate(60, 480)">
+    <rect x="0" y="0" width="72" height="28" rx="4" fill="#0d1117" stroke="#6366f1" stroke-width="1"/>
+    <text x="36" y="18" text-anchor="middle" font-family="monospace" font-size="11" fill="#6366f1">Velero</text>
+
+    <rect x="84" y="0" width="72" height="28" rx="4" fill="#0d1117" stroke="#10b981" stroke-width="1"/>
+    <text x="120" y="18" text-anchor="middle" font-family="monospace" font-size="11" fill="#10b981">FluxCD</text>
+
+    <rect x="168" y="0" width="72" height="28" rx="4" fill="#0d1117" stroke="#f97316" stroke-width="1"/>
+    <text x="204" y="18" text-anchor="middle" font-family="monospace" font-size="11" fill="#f97316">MinIO</text>
+
+    <rect x="252" y="0" width="100" height="28" rx="4" fill="#0d1117" stroke="#a855f7" stroke-width="1"/>
+    <text x="302" y="18" text-anchor="middle" font-family="monospace" font-size="11" fill="#a855f7">SOPS + age</text>
+
+    <rect x="364" y="0" width="56" height="28" rx="4" fill="#0d1117" stroke="#475569" stroke-width="1"/>
+    <text x="392" y="18" text-anchor="middle" font-family="monospace" font-size="11" fill="#94a3b8">Helm</text>
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="100" font-family="'JetBrains Mono', monospace" font-size="42" font-weight="800" fill="#e4e6f0">Velero Backups</text>
+  <text x="60" y="150" font-family="'JetBrains Mono', monospace" font-size="20" fill="#5a5f7a">automated disaster recovery on k3s</text>
+  <text x="60" y="190" font-family="'JetBrains Mono', monospace" font-size="20" fill="#5a5f7a">with MinIO as the S3 backend</text>
+
+  <!-- Date -->
+  <text x="60" y="560" font-family="monospace" font-size="12" fill="#3d4260">April 3, 2026</text>
+
+  <!-- Bottom line -->
+  <rect x="60" y="580" width="200" height="1" fill="#1e2235"/>
+</svg>

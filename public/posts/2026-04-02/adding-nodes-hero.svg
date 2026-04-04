@@ -1,0 +1,100 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0c14"/>
+      <stop offset="100%" stop-color="#0d1017"/>
+    </linearGradient>
+    <linearGradient id="accent2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+
+  <!-- Grid -->
+  <g opacity="0.04">
+    <line x1="60" y1="0" x2="60" y2="630" stroke="#fff" stroke-width="1"/>
+    <line x1="120" y1="0" x2="120" y2="630" stroke="#fff" stroke-width="1"/>
+    <line x1="0" y1="60" x2="1200" y2="60" stroke="#fff" stroke-width="1"/>
+    <line x1="0" y1="120" x2="1200" y2="120" stroke="#fff" stroke-width="1"/>
+  </g>
+
+  <!-- Accent bar -->
+  <rect x="0" y="0" width="4" height="630" fill="url(#accent2)"/>
+
+  <!-- Node cluster visualization -->
+  <g transform="translate(750, 160)">
+    <!-- Pi nodes (ARM64) -->
+    <rect x="0" y="0" width="140" height="70" rx="6" fill="#0d1117" stroke="#c51a4a" stroke-width="1.5"/>
+    <text x="70" y="28" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#e4e6f0">kubepi</text>
+    <text x="70" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#c51a4a">ARM64 · 8GB</text>
+    <text x="70" y="62" text-anchor="middle" font-family="monospace" font-size="9" fill="#5a5f7a">Control Plane</text>
+    <circle cx="12" cy="12" r="4" fill="#10b981" filter="url(#glow2)"/>
+
+    <rect x="160" y="0" width="140" height="70" rx="6" fill="#0d1117" stroke="#c51a4a" stroke-width="1"/>
+    <text x="230" y="28" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#e4e6f0">kubepi-w1</text>
+    <text x="230" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#c51a4a">ARM64 · 4GB</text>
+    <text x="230" y="62" text-anchor="middle" font-family="monospace" font-size="9" fill="#5a5f7a">Worker</text>
+    <circle cx="172" cy="12" r="4" fill="#10b981"/>
+
+    <rect x="320" y="0" width="140" height="70" rx="6" fill="#0d1117" stroke="#c51a4a" stroke-width="1"/>
+    <text x="390" y="28" text-anchor="middle" font-family="monospace" font-size="13" font-weight="700" fill="#e4e6f0">kubepi-w2</text>
+    <text x="390" y="48" text-anchor="middle" font-family="monospace" font-size="10" fill="#c51a4a">ARM64 · 2GB</text>
+    <text x="390" y="62" text-anchor="middle" font-family="monospace" font-size="9" fill="#5a5f7a">Worker</text>
+    <circle cx="332" cy="12" r="4" fill="#10b981"/>
+
+    <!-- Connection lines -->
+    <line x1="140" y1="35" x2="160" y2="35" stroke="#1e2235" stroke-width="1"/>
+    <line x1="300" y1="35" x2="320" y2="35" stroke="#1e2235" stroke-width="1"/>
+
+    <!-- Arrow down to kubethink -->
+    <line x1="230" y1="70" x2="230" y2="110" stroke="#f97316" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <polygon points="225,108 230,118 235,108" fill="#f97316"/>
+
+    <!-- ThinkStation (x86_64) - highlighted as new -->
+    <rect x="110" y="120" width="240" height="90" rx="8" fill="#0d1117" stroke="#f97316" stroke-width="2"/>
+    <rect x="110" y="120" width="240" height="3" rx="2" fill="#f97316" opacity="0.6"/>
+    <text x="230" y="152" text-anchor="middle" font-family="monospace" font-size="15" font-weight="800" fill="#f97316">kubethink</text>
+    <text x="230" y="172" text-anchor="middle" font-family="monospace" font-size="11" fill="#e4e6f0">x86_64 · 8GB DDR5</text>
+    <text x="230" y="190" text-anchor="middle" font-family="monospace" font-size="10" fill="#ef4444">RHEL 10.1</text>
+    <text x="230" y="204" text-anchor="middle" font-family="monospace" font-size="9" fill="#5a5f7a">Worker + Storage</text>
+    <circle cx="122" cy="132" r="4" fill="#10b981" filter="url(#glow2)"/>
+
+    <!-- NEW badge -->
+    <rect x="320" y="126" width="40" height="18" rx="3" fill="#f97316" opacity="0.15"/>
+    <text x="340" y="139" text-anchor="middle" font-family="monospace" font-size="10" font-weight="700" fill="#f97316">NEW</text>
+
+    <!-- Debian label -->
+    <text x="390" y="18" font-family="monospace" font-size="9" fill="#5a5f7a" opacity="0.6">Debian 13</text>
+    <text x="390" y="30" font-family="monospace" font-size="9" fill="#5a5f7a" opacity="0.6">Debian 13</text>
+    <text x="390" y="42" font-family="monospace" font-size="9" fill="#5a5f7a" opacity="0.6">Debian 13</text>
+
+    <!-- Architecture labels -->
+    <rect x="0" y="260" width="90" height="24" rx="4" fill="#0d1117" stroke="#c51a4a" stroke-width="1" opacity="0.7"/>
+    <text x="45" y="276" text-anchor="middle" font-family="monospace" font-size="10" fill="#c51a4a">ARM64</text>
+
+    <rect x="100" y="260" width="90" height="24" rx="4" fill="#0d1117" stroke="#f97316" stroke-width="1" opacity="0.7"/>
+    <text x="145" y="276" text-anchor="middle" font-family="monospace" font-size="10" fill="#f97316">x86_64</text>
+
+    <rect x="200" y="260" width="90" height="24" rx="4" fill="#0d1117" stroke="#10b981" stroke-width="1" opacity="0.7"/>
+    <text x="245" y="276" text-anchor="middle" font-family="monospace" font-size="10" fill="#10b981">k3s</text>
+
+    <rect x="300" y="260" width="90" height="24" rx="4" fill="#0d1117" stroke="#ef4444" stroke-width="1" opacity="0.7"/>
+    <text x="345" y="276" text-anchor="middle" font-family="monospace" font-size="10" fill="#ef4444">RHEL</text>
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="100" font-family="'JetBrains Mono', monospace" font-size="38" font-weight="800" fill="#e4e6f0">Adding a</text>
+  <text x="60" y="150" font-family="'JetBrains Mono', monospace" font-size="38" font-weight="800" fill="#f97316">ThinkStation</text>
+  <text x="60" y="210" font-family="'JetBrains Mono', monospace" font-size="18" fill="#5a5f7a">to a Raspberry Pi k3s cluster</text>
+  <text x="60" y="240" font-family="'JetBrains Mono', monospace" font-size="18" fill="#5a5f7a">mixed-arch, mixed-OS, one control plane</text>
+
+  <!-- Date -->
+  <text x="60" y="560" font-family="monospace" font-size="12" fill="#3d4260">April 3, 2026</text>
+  <rect x="60" y="580" width="200" height="1" fill="#1e2235"/>
+</svg>

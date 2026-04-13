@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Background gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#1a1f2e"/>
+      <stop offset="60%" stop-color="#13161f"/>
+      <stop offset="100%" stop-color="#0f1117"/>
+    </radialGradient>
+
+    <!-- Glow filters -->
+    <filter id="cyanGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="amberGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Node card gradient -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e2433"/>
+      <stop offset="100%" stop-color="#161a25"/>
+    </linearGradient>
+
+    <linearGradient id="centerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#243049"/>
+      <stop offset="100%" stop-color="#1a2238"/>
+    </linearGradient>
+
+    <!-- Animated dash for traffic flow -->
+    <style>
+      @keyframes dashflow {
+        to { stroke-dashoffset: -20; }
+      }
+      .flowline {
+        stroke-dasharray: 4 6;
+        animation: dashflow 1.5s linear infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#1f2535" stroke-width="0.5" opacity="0.4">
+    <path d="M0 100 H1200 M0 200 H1200 M0 300 H1200 M0 400 H1200 M0 500 H1200"/>
+    <path d="M100 0 V630 M300 0 V630 M500 0 V630 M700 0 V630 M900 0 V630 M1100 0 V630"/>
+  </g>
+
+  <!-- Title block -->
+  <g font-family="JetBrains Mono, Menlo, monospace">
+    <text x="60" y="80" font-size="14" fill="#5b7a9c" letter-spacing="3">$ kubectl get deploy -n headlamp</text>
+    <text x="60" y="135" font-size="42" font-weight="700" fill="#e8eef7" letter-spacing="-1">Headlamp on k3s</text>
+    <text x="60" y="170" font-size="20" fill="#7d92ae" letter-spacing="0.5">Read-only Kubernetes UI behind a Cloudflare Tunnel</text>
+
+    <!-- Tag chips -->
+    <g font-size="13" font-weight="500">
+      <g transform="translate(60, 200)">
+        <rect width="86" height="26" rx="4" fill="#1a2435" stroke="#2a3a52" stroke-width="1"/>
+        <text x="43" y="18" fill="#7dd3fc" text-anchor="middle">FluxCD</text>
+      </g>
+      <g transform="translate(156, 200)">
+        <rect width="64" height="26" rx="4" fill="#1a2435" stroke="#2a3a52" stroke-width="1"/>
+        <text x="32" y="18" fill="#7dd3fc" text-anchor="middle">SOPS</text>
+      </g>
+      <g transform="translate(230, 200)">
+        <rect width="116" height="26" rx="4" fill="#1a2435" stroke="#2a3a52" stroke-width="1"/>
+        <text x="58" y="18" fill="#fbbf24" text-anchor="middle">Zero Trust</text>
+      </g>
+      <g transform="translate(356, 200)">
+        <rect width="100" height="26" rx="4" fill="#1a2435" stroke="#2a3a52" stroke-width="1"/>
+        <text x="50" y="18" fill="#7dd3fc" text-anchor="middle">RBAC view</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Architecture diagram -->
+  <g font-family="JetBrains Mono, Menlo, monospace" transform="translate(60, 280)">
+
+    <!-- User -->
+    <g>
+      <rect x="0" y="40" width="170" height="70" rx="6" fill="url(#cardGrad)" stroke="#2a3a52" stroke-width="1.2"/>
+      <text x="85" y="68" font-size="13" fill="#e8eef7" text-anchor="middle" font-weight="600">Browser</text>
+      <text x="85" y="88" font-size="11" fill="#7d92ae" text-anchor="middle">headlamp.example.net</text>
+    </g>
+
+    <!-- Arrow 1: Browser -> Cloudflare -->
+    <line x1="170" y1="75" x2="240" y2="75" stroke="#7dd3fc" stroke-width="1.5" class="flowline" filter="url(#cyanGlow)"/>
+    <polygon points="240,75 232,71 232,79" fill="#7dd3fc"/>
+
+    <!-- Cloudflare Edge -->
+    <g>
+      <rect x="245" y="40" width="180" height="70" rx="6" fill="url(#cardGrad)" stroke="#fbbf24" stroke-width="1.2" filter="url(#amberGlow)"/>
+      <text x="335" y="65" font-size="13" fill="#e8eef7" text-anchor="middle" font-weight="600">Cloudflare Access</text>
+      <text x="335" y="83" font-size="11" fill="#7d92ae" text-anchor="middle">email OTP</text>
+      <text x="335" y="99" font-size="10" fill="#5b7a9c" text-anchor="middle">gate one</text>
+    </g>
+
+    <!-- Arrow 2: Cloudflare -> Tunnel -->
+    <line x1="425" y1="75" x2="495" y2="75" stroke="#7dd3fc" stroke-width="1.5" class="flowline" filter="url(#cyanGlow)"/>
+    <polygon points="495,75 487,71 487,79" fill="#7dd3fc"/>
+
+    <!-- k3s cluster boundary -->
+    <g>
+      <rect x="500" y="-10" width="580" height="290" rx="10" fill="none" stroke="#2a3a52" stroke-width="1.2" stroke-dasharray="6 4"/>
+      <text x="520" y="10" font-size="11" fill="#5b7a9c" letter-spacing="2">PI-CLUSTER (k3s)</text>
+    </g>
+
+    <!-- Cloudflared Deployment -->
+    <g>
+      <rect x="520" y="40" width="170" height="70" rx="6" fill="url(#cardGrad)" stroke="#2a3a52" stroke-width="1.2"/>
+      <text x="605" y="65" font-size="13" fill="#e8eef7" text-anchor="middle" font-weight="600">cloudflared</text>
+      <text x="605" y="83" font-size="11" fill="#7d92ae" text-anchor="middle">2 replicas</text>
+      <text x="605" y="99" font-size="10" fill="#5b7a9c" text-anchor="middle">SOPS-encrypted creds</text>
+    </g>
+
+    <!-- Arrow 3: Cloudflared -> Service -->
+    <line x1="690" y1="75" x2="760" y2="75" stroke="#7dd3fc" stroke-width="1.5" class="flowline" filter="url(#cyanGlow)"/>
+    <polygon points="760,75 752,71 752,79" fill="#7dd3fc"/>
+
+    <!-- Headlamp Pod -->
+    <g>
+      <rect x="765" y="20" width="200" height="110" rx="6" fill="url(#centerGrad)" stroke="#7dd3fc" stroke-width="1.5" filter="url(#cyanGlow)"/>
+      <text x="865" y="48" font-size="14" fill="#e8eef7" text-anchor="middle" font-weight="700">Headlamp Pod</text>
+      <line x1="785" y1="58" x2="945" y2="58" stroke="#2a3a52" stroke-width="0.8"/>
+      <text x="865" y="78" font-size="11" fill="#7d92ae" text-anchor="middle">runAsNonRoot</text>
+      <text x="865" y="94" font-size="11" fill="#7d92ae" text-anchor="middle">readOnlyRootFilesystem</text>
+      <text x="865" y="110" font-size="11" fill="#7d92ae" text-anchor="middle">caps: drop ALL</text>
+    </g>
+
+    <!-- Arrow 4: Pod -> API (downward) -->
+    <line x1="865" y1="130" x2="865" y2="195" stroke="#fbbf24" stroke-width="1.5" class="flowline" filter="url(#amberGlow)"/>
+    <polygon points="865,195 861,187 869,187" fill="#fbbf24"/>
+    <text x="880" y="170" font-size="10" fill="#fbbf24" font-weight="500">SA token</text>
+
+    <!-- Kubernetes API -->
+    <g>
+      <rect x="765" y="200" width="200" height="60" rx="6" fill="url(#cardGrad)" stroke="#2a3a52" stroke-width="1.2"/>
+      <text x="865" y="225" font-size="13" fill="#e8eef7" text-anchor="middle" font-weight="600">Kubernetes API</text>
+      <text x="865" y="245" font-size="11" fill="#fbbf24" text-anchor="middle">ClusterRole: view</text>
+    </g>
+
+    <!-- FluxCD label (left side, vertical context) -->
+    <g transform="translate(0, 200)">
+      <rect x="0" y="0" width="170" height="60" rx="6" fill="url(#cardGrad)" stroke="#2a3a52" stroke-width="1.2"/>
+      <text x="85" y="25" font-size="13" fill="#e8eef7" text-anchor="middle" font-weight="600">FluxCD</text>
+      <text x="85" y="45" font-size="11" fill="#7d92ae" text-anchor="middle">HelmRelease 0.41.0</text>
+    </g>
+
+    <!-- Arrow: Flux -> Pod (curved, dashed differently to imply control plane not data plane) -->
+    <path d="M 170 230 Q 400 230 700 130" fill="none" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="3 5" opacity="0.7"/>
+    <text x="320" y="260" font-size="10" fill="#a78bfa" font-style="italic">reconciles</text>
+  </g>
+
+  <!-- Footer -->
+  <g font-family="JetBrains Mono, Menlo, monospace">
+    <text x="60" y="600" font-size="11" fill="#3f526e" letter-spacing="1">mrguato.github.io/gitops-notes</text>
+    <text x="1140" y="600" font-size="11" fill="#3f526e" text-anchor="end" letter-spacing="1">if it is not in git, it does not exist</text>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 ---
 title: "Headlamp on k3s: a read-only Kubernetes UI behind a Cloudflare Tunnel"
+date: 2026-04-12
 description: "Why I added Headlamp to my homelab cluster, how it slots into my FluxCD GitOps pattern, and the four ways I broke it before it worked."
-Date: 2026-04-12
 hero: posts/2026-04-12/hero.svg
 tags: [kubernetes, k3s, fluxcd, helm, gitops, headlamp, cloudflare-tunnel, homelab, security]
 ---

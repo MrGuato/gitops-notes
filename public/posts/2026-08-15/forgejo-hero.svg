@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="'JetBrains Mono','SFMono-Regular',Menlo,Consolas,monospace">
+
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#1c2430" stroke-width="1"/>
+    </pattern>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L7 4 L0 7 z" fill="#3f4c60"/>
+    </marker>
+    <marker id="arC" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L7 4 L0 7 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arA" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 1 L7 4 L0 7 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0f1117"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.35"/>
+
+  <!-- ══ header ══ -->
+  <rect x="60" y="46" width="3" height="48" fill="#22d3ee" filter="url(#glow)"/>
+  <text x="80" y="72" font-size="30" fill="#e6edf6" letter-spacing="-0.5">git.example.net</text>
+  <text x="80" y="93" font-size="11.5" fill="#5b6b80">forgejo 15.0.2 lts &#183; helm chart 17.1.0 &#183; k3s &#183; fluxcd &#183; postgres 16 &#183; longhorn</text>
+
+  <text x="1140" y="62" font-size="10" fill="#3f4c60" text-anchor="end" letter-spacing="1.6">SELF-HOSTED GIT FORGE</text>
+  <text x="1140" y="82" font-size="12" fill="#fbbf24" text-anchor="end">pi-cluster</text>
+  <text x="1140" y="99" font-size="10" fill="#3f4c60" text-anchor="end">apps/base/forgejo/</text>
+
+  <line x1="60" y1="118" x2="1140" y2="118" stroke="#1e2733"/>
+
+  <!-- ══ ingress: public ══ -->
+  <text x="60" y="152" font-size="9.5" fill="#3f4c60" letter-spacing="1.4">PUBLIC &#183; HTTPS</text>
+
+  <rect x="60" y="164" width="128" height="70" rx="3" fill="#141926" stroke="#26313f"/>
+  <text x="74" y="192" font-size="12" fill="#c2cddc">browser</text>
+  <text x="74" y="210" font-size="12" fill="#c2cddc">git https</text>
+  <text x="74" y="226" font-size="9.5" fill="#4b5b6f">+ PAT</text>
+
+  <line x1="188" y1="199" x2="228" y2="199" stroke="#3f4c60" marker-end="url(#ar)"/>
+
+  <rect x="234" y="164" width="146" height="70" rx="3" fill="#141926" stroke="#26313f"/>
+  <text x="248" y="190" font-size="12" fill="#c2cddc">cloudflare</text>
+  <text x="248" y="207" font-size="10.5" fill="#5b6b80">tls terminate</text>
+  <text x="248" y="223" font-size="10.5" fill="#5b6b80">edge / dns</text>
+
+  <line x1="422" y1="199" x2="382" y2="199" stroke="#22d3ee" stroke-dasharray="3 3" marker-end="url(#arC)"/>
+  <text x="402" y="187" font-size="8.5" fill="#22d3ee" text-anchor="middle">dial out</text>
+
+  <rect x="424" y="164" width="152" height="70" rx="3" fill="#141926" stroke="#26313f"/>
+  <text x="438" y="190" font-size="12" fill="#c2cddc">cloudflared</text>
+  <text x="438" y="207" font-size="10.5" fill="#5b6b80">2 replicas</text>
+  <text x="438" y="223" font-size="10.5" fill="#5b6b80">creds.json + config</text>
+
+  <path d="M576 199 H608 V262" fill="none" stroke="#3f4c60" marker-end="url(#ar)"/>
+
+  <!-- ══ ingress: lan ══ -->
+  <text x="60" y="290" font-size="9.5" fill="#3f4c60" letter-spacing="1.4">LAN ONLY &#183; SSH</text>
+
+  <rect x="60" y="302" width="128" height="70" rx="3" fill="#141926" stroke="#26313f"/>
+  <text x="74" y="330" font-size="12" fill="#c2cddc">git cli</text>
+  <text x="74" y="348" font-size="10.5" fill="#5b6b80">ed25519 key</text>
+  <text x="74" y="364" font-size="9.5" fill="#4b5b6f">192.168.1.0/24</text>
+
+  <line x1="188" y1="337" x2="228" y2="337" stroke="#3f4c60" marker-end="url(#ar)"/>
+
+  <rect x="234" y="302" width="146" height="70" rx="3" fill="#141926" stroke="#2f3a49"/>
+  <text x="248" y="328" font-size="12" fill="#fbbf24">NodePort</text>
+  <text x="248" y="346" font-size="12" fill="#c2cddc">:32022</text>
+  <text x="248" y="362" font-size="9.5" fill="#4b5b6f">&#8594; :2222</text>
+
+  <path d="M380 337 H608 V300" fill="none" stroke="#fbbf24" opacity="0.55" marker-end="url(#arA)"/>
+
+  <!-- ══ forgejo ══ -->
+  <rect x="610" y="164" width="166" height="208" rx="3" fill="#141c26" stroke="#22d3ee" stroke-opacity="0.45"/>
+  <text x="626" y="192" font-size="15" fill="#22d3ee">forgejo</text>
+  <line x1="626" y1="204" x2="760" y2="204" stroke="#1e2733"/>
+  <text x="626" y="226" font-size="11" fill="#c2cddc">:3000 http</text>
+  <text x="626" y="245" font-size="11" fill="#c2cddc">:2222 ssh</text>
+  <text x="626" y="272" font-size="9.5" fill="#4b5b6f">INSTALL_LOCK  true</text>
+  <text x="626" y="288" font-size="9.5" fill="#4b5b6f">REGISTRATION  off</text>
+  <text x="626" y="304" font-size="9.5" fill="#4b5b6f">passkey + 2fa</text>
+  <text x="626" y="332" font-size="9.5" fill="#3f4c60">replicaCount 1</text>
+  <text x="626" y="348" font-size="9.5" fill="#3f4c60">not ha-ready</text>
+
+  <line x1="776" y1="212" x2="816" y2="212" stroke="#3f4c60" marker-end="url(#ar)"/>
+  <path d="M693 372 V404 H816" fill="none" stroke="#3f4c60" marker-end="url(#ar)"/>
+
+  <!-- ══ postgres ══ -->
+  <rect x="818" y="176" width="150" height="72" rx="3" fill="#141926" stroke="#26313f"/>
+  <text x="832" y="202" font-size="12" fill="#c2cddc">postgres 16</text>
+  <text x="832" y="220" font-size="10" fill="#5b6b80">forgejo-postgres</text>
+  <text x="832" y="236" font-size="10" fill="#5b6b80">:5432 &#183; ClusterIP</text>
+
+  <path d="M893 248 V404" fill="none" stroke="#3f4c60" marker-end="url(#ar)"/>
+
+  <!-- ══ storage ══ -->
+  <rect x="818" y="406" width="322" height="86" rx="3" fill="#131b1a" stroke="#2c3b3a"/>
+  <text x="834" y="430" font-size="12" fill="#34d399">longhorn-single</text>
+  <text x="1124" y="430" font-size="9.5" fill="#4b5b6f" text-anchor="end">strict-local &#183; Retain</text>
+
+  <rect x="834" y="442" width="140" height="36" rx="2" fill="#0f1117" stroke="#233029"/>
+  <text x="846" y="459" font-size="10" fill="#c2cddc">forgejo-data</text>
+  <text x="846" y="472" font-size="9.5" fill="#4b5b6f">50Gi &#183; RWO</text>
+
+  <rect x="984" y="442" width="140" height="36" rx="2" fill="#0f1117" stroke="#233029"/>
+  <text x="996" y="459" font-size="10" fill="#c2cddc">postgres-data</text>
+  <text x="996" y="472" font-size="9.5" fill="#4b5b6f">10Gi &#183; RWO</text>
+
+  <!-- ══ annotation ══ -->
+  <rect x="818" y="268" width="322" height="118" rx="3" fill="#16131a" stroke="#3a2b33"/>
+  <text x="834" y="292" font-size="9.5" fill="#f472b6" letter-spacing="1.2">DESIGN NOTE</text>
+  <text x="834" y="314" font-size="10.5" fill="#8f9cae">no zero trust access policy on this</text>
+  <text x="834" y="330" font-size="10.5" fill="#8f9cae">hostname. the git cli cannot complete</text>
+  <text x="834" y="346" font-size="10.5" fill="#8f9cae">an email otp flow, so clone and push</text>
+  <text x="834" y="362" font-size="10.5" fill="#8f9cae">would break. forgejo native auth</text>
+  <text x="834" y="378" font-size="10.5" fill="#8f9cae">carries it instead.</text>
+
+  <!-- ══ node strip ══ -->
+  <line x1="60" y1="522" x2="776" y2="522" stroke="#1e2733"/>
+  <text x="60" y="546" font-size="9.5" fill="#3f4c60" letter-spacing="1.4">NODES &#183; STORAGE SCHEDULING</text>
+
+  <rect x="60" y="558" width="168" height="48" rx="3" fill="#12161f" stroke="#1e2733"/>
+  <text x="74" y="578" font-size="11" fill="#8f9cae">kubepi</text>
+  <text x="74" y="594" font-size="9" fill="#3f4c60">rpi4 8gb &#183; arm64 &#183; cp</text>
+
+  <rect x="242" y="558" width="168" height="48" rx="3" fill="#12161f" stroke="#1e2733"/>
+  <text x="256" y="578" font-size="11" fill="#8f9cae">kubepi-w1</text>
+  <text x="256" y="594" font-size="9" fill="#3f4c60">rpi4 4gb &#183; sd &#183; 23gb free</text>
+
+  <rect x="424" y="558" width="168" height="48" rx="3" fill="#12161f" stroke="#1e2733"/>
+  <text x="438" y="578" font-size="11" fill="#8f9cae">kubepi-w2</text>
+  <text x="438" y="594" font-size="9" fill="#3f4c60">rpi4 2gb &#183; no storage</text>
+
+  <rect x="606" y="558" width="170" height="48" rx="3" fill="#151d20" stroke="#fbbf24" stroke-opacity="0.5"/>
+  <text x="620" y="578" font-size="11" fill="#fbbf24">kubethink</text>
+  <text x="620" y="594" font-size="9" fill="#6b6350">x86_64 &#183; 2tb ssd &#183; pinned</text>
+
+  <text x="1140" y="588" font-size="10" fill="#2f3a49" text-anchor="end">mrguato.github.io/gitops-notes</text>
+
+</svg>

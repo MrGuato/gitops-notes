@@ -2,7 +2,7 @@
 title: "Running My Own Git Forge on a Raspberry Pi Cluster"
 date: 2026-08-15
 description: "Deploying a forgejo repo onto my k3s cluster for mirroring"
-hero: posts/2026-08-15/hero.svg
+hero: posts/2026-08-15/forgejo-hero.svg
 tags: [kubernetes, k3s, fluxcd, helm, gitops, forgejo, cloudflare-tunnel, homelab, security]
 ---
 

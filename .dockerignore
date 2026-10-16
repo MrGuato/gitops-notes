@@ -1,0 +1,16 @@
+# Build context for the container image: only what the Astro build needs.
+.git
+.github
+.vscode
+.astro
+node_modules
+dist
+deploy
+Dockerfile
+.dockerignore
+README.md
+LICENSE
+.env
+.env.*
+*.log
+.DS_Store

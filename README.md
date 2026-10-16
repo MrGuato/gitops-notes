@@ -61,8 +61,21 @@ flowchart LR
   A[[local editor]] --> B[[git commit]]
   B --> C[[git push]]
   C --> D[[ci build]]
-  D --> E[[deploy to host]]
+  D --> E[[github pages]]
+  D --> H[[container image]]
+  H --> I[[flux on k3s]]
+  I --> J[[cloudflare tunnel]]
   A --> F[[src/content/posts]]
   F --> D
   D --> G[[dist output]]
 ```
+
+## Where it runs
+
+The site has two deployment targets built from the same source.
+
+GitHub Pages is the original home. A push to `main` runs `.github/workflows/deploy.yml`, which builds with the default base path `/gitops-notes` and publishes to https://mrguato.github.io/gitops-notes. Nothing about that path changed.
+
+The k3s homelab is the second target. The same push runs `.github/workflows/image.yml`, which builds the site with `ASTRO_BASE=/`, packages it with nginx in a multi-arch container image, and pushes it to `ghcr.io/mrguato/gitops-notes`. The manifests under `deploy/k8s` run that image in the cluster behind a Cloudflare Tunnel. The setup steps for the cluster repo are in [deploy/k8s/README.md](deploy/k8s/README.md).
+
+The cluster hostname is public on purpose. Every other app in the cluster sits behind Cloudflare Access, but a blog is meant to be read by anyone, so there is no login in front of it. The protection comes from the layers around it instead. The container serves static files only, runs nginx as a non-root user on a read-only filesystem with every capability dropped, and sends a strict Content-Security-Policy. A NetworkPolicy lets only the tunnel pods reach nginx and lets nginx reach nothing but cluster DNS, so a compromised web pod cannot touch other namespaces. Cloudflare caches the whole site at the edge, runs Bot Fight Mode and rate limits the hostname, so a traffic spike is absorbed before it reaches the home connection.

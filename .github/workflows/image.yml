@@ -1,0 +1,66 @@
+name: Container image
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: image-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE: ghcr.io/mrguato/gitops-notes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-qemu-action@v3
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          # Every build is tagged sha-<short commit>; main also moves latest.
+          tags: |
+            type=sha
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      # Pull requests build both architectures to prove the Dockerfile still
+      # works, but nothing is pushed until the change lands on main.
+      # The cluster mixes Raspberry Pi 4 (arm64) and x86_64 nodes.
+      # CLUSTER_SITE_URL is an optional repository variable for the public
+      # hostname the cluster serves; the default matches deploy/k8s.
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            ASTRO_BASE=/
+            ASTRO_SITE=${{ vars.CLUSTER_SITE_URL || 'https://notes.deleontech.net' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # Keep the manifest list to the two platform images so the package
+          # page and the kubelet see only amd64 and arm64 entries.
+          provenance: false

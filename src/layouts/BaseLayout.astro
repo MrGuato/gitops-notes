@@ -31,15 +31,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(href + "/")
     <meta property="og:description" content={description} />
     <meta property="og:site_name" content={site.name} />
     <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
-    <script is:inline>
-      (function () {
-        try {
-          if (localStorage.getItem("theme") === "dark") {
-            document.documentElement.setAttribute("data-theme", "dark");
-          }
-        } catch (e) {}
-      })();
-    </script>
+    <script is:inline src={`${base}/theme.js`}></script>
   </head>
 
   <body>
@@ -80,33 +72,5 @@ const isCurrent = (href: string) => path === href || path.startsWith(href + "/")
         </nav>
       </div>
     </footer>
-
-    <script is:inline>
-      (function () {
-        var root = document.documentElement;
-        var buttons = document.querySelectorAll("[data-set-theme]");
-        function current() {
-          return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-        }
-        function paint() {
-          var c = current();
-          buttons.forEach(function (b) {
-            var on = b.getAttribute("data-set-theme") === c;
-            b.classList.toggle("on", on);
-            b.setAttribute("aria-pressed", String(on));
-          });
-        }
-        buttons.forEach(function (b) {
-          b.addEventListener("click", function () {
-            var t = b.getAttribute("data-set-theme");
-            if (t === "dark") root.setAttribute("data-theme", "dark");
-            else root.removeAttribute("data-theme");
-            try { localStorage.setItem("theme", t); } catch (e) {}
-            paint();
-          });
-        });
-        paint();
-      })();
-    </script>
   </body>
 </html>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { base } from "../lib/site";
+
+const description = "That page does not exist.";
+---
+
+<BaseLayout title="Not found" description={description}>
+  <section class="page-h">
+    <div>
+      <div class="eyebrow">404</div>
+      <h1>Page not found</h1>
+      <p class="sub">
+        The address may be wrong, or the note was moved or removed.
+        Try the <a href={`${base}/`}>front page</a> or the
+        <a href={`${base}/writing`}>writing index</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

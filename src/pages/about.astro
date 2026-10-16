@@ -1,111 +1,95 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const description = "Infrastructure & Security Engineer based in Massachusetts. Building, breaking, and automating since 2016.";
+import SocialLinks from "../components/SocialLinks.astro";
+import { base } from "../lib/site";
+
+const description =
+  "Infrastructure and security engineer based in Massachusetts. Building, breaking and automating since 2016.";
+
+const journey = [
+  { year: "2016", role: "IT Support / Helpdesk", what: "Cabling, AV, break-fix, networking fundamentals" },
+  { year: "2020", role: "Systems Administrator", what: "M365 migrations, HIPAA security program, MDM at scale" },
+  { year: "2022", role: "IT Support and Security", what: "Vulnerability management, network config, L1 incident response" },
+  { year: "2023", role: "Cloud Admin / Security", what: "XDR rollout, CASB, IAM and Conditional Access, hybrid cloud" },
+  { year: "2024", role: "Infrastructure Security Engineer", what: "IaC, GitOps, DevSecOps, compliance frameworks" },
+];
+
+const certs = ["CISM", "CompTIA CCAP", "CSIS", "WGU, Network Engineering and Cybersecurity"];
+const stack = [
+  "Kubernetes / k3s", "FluxCD", "Azure", "Microsoft Sentinel", "Splunk / ELK",
+  "Nessus / Rapid7", "Palo Alto Networks", "Zero Trust", "NIST CSF", "CIS v8",
+];
 ---
 
 <BaseLayout title="About" description={description}>
-  <h1 class="post-title">Hey, I'm Jonathan 👋</h1>
-  <div class="prose">
-    <p>
-      Infrastructure &amp; Security Engineer based out of Massachusetts. I've been in IT since 2016 —
-      started pulling cable and troubleshooting end-users at a nonprofit, worked through sysadmin and
-      cloud security roles, and gradually shifted my focus toward platform engineering, automation, and
-      security architecture. The through-line has always been the same: <strong>make it more reliable,
-      more secure, and more automated than I found it.</strong>
-    </p>
+  <article class="post">
+    <header class="post-head">
+      <div class="eyebrow">About</div>
+      <h1>Hey, I'm Jonathan.</h1>
+      <div class="post-meta">
+        <span>Boston, MA</span>
+        <span>Infrastructure Security Engineer</span>
+        <span>CISM</span>
+      </div>
+    </header>
 
-    <hr />
+    <div class="prose">
+      <p>
+        I'm an infrastructure and security engineer based out of Massachusetts. I've been in IT since 2016.
+        I started by pulling cable and troubleshooting end users at a nonprofit, worked through sysadmin and
+        cloud security roles, and gradually shifted toward platform engineering, automation and security
+        architecture. The through-line has always been the same: <strong>make it more reliable, more secure
+        and more automated than I found it.</strong>
+      </p>
 
-    <h2>What I'm building</h2>
+      <h2>What I'm building</h2>
+      <p>
+        The main project is a mixed-architecture k3s cluster at home, managed entirely with FluxCD. Git is the
+        only source of truth. Secrets are SOPS-encrypted, ingress goes through Cloudflare Tunnel, storage is
+        Longhorn and backups run through Velero. It is where I experiment before I deploy anything at work,
+        and the tooling maps directly to what production platform engineering looks like.
+      </p>
+      <p>
+        I also keep a containerized game server, a hardened serverless API on AWS, and some security
+        automation work. The full list, with source where it is public, is on the
+        <a href={`${base}/projects`}>projects page</a>. Everything I learn while building goes into the
+        <a href={`${base}/writing`}>build log</a>.
+      </p>
+      <p>
+        Lesson learned the hard way: I once force-pushed a branch, triggered Flux pruning and wiped my
+        cloudflared deployment. <code>git reflog</code> is a skill.
+      </p>
 
-    <h3>🖥️ <a href="https://github.com/MrGuato/pi-cluster" target="_blank" rel="noopener"><code>pi-cluster</code></a> — GitOps Homelab (Active)</h3>
-    <p>
-      A production-minded bare-metal ARM64 k3s cluster on a Raspberry Pi 4, managed entirely with
-      <strong>FluxCD</strong>. Git is the only source of truth — if it's not in the repo, it doesn't exist.
-    </p>
-    <ul>
-      <li><strong>Secrets:</strong> SOPS + age encryption, never plaintext in Git</li>
-      <li><strong>Ingress:</strong> Cloudflare Tunnel for zero-trust external access</li>
-      <li><strong>Apps:</strong> linkding, Ghost blog, Obsidian LiveSync (CouchDB) — all declarative, all reconciled</li>
-      <li><strong>Learned the hard way:</strong> recovered from a force-push that triggered Flux pruning and wiped my cloudflared deployment. <code>git reflog</code> is a skill.</li>
-    </ul>
-    <div class="callout">
-      This is where I experiment before I deploy at work. The tooling here maps directly to what production platform engineering looks like.
+      <h2>On the roadmap</h2>
+      <p>
+        Talos Linux, Cilium CNI, kube-vip and kube-prometheus-stack. The goal is to move from "it works" to
+        "it is observable, resilient and enterprise-grade."
+      </p>
+
+      <h2>The journey</h2>
+      <ol class="timeline">
+        {journey.map((j) => (
+          <li>
+            <span class="year">{j.year}</span>
+            <span class="role">{j.role}</span>
+            <span class="what">{j.what}</span>
+          </li>
+        ))}
+      </ol>
+      <p>The homelab is where the theory meets the metal.</p>
+
+      <h2>Certifications and education</h2>
+      <div class="chips">
+        {certs.map((c) => <span class="chip">{c}</span>)}
+      </div>
+
+      <h2>Tools and stack</h2>
+      <div class="chips">
+        {stack.map((s) => <span class="chip">{s}</span>)}
+      </div>
+
+      <h2>Find me</h2>
+      <SocialLinks />
     </div>
-
-    <h3>☁️ <a href="https://github.com/MrGuato" target="_blank" rel="noopener"><code>serverless-api</code></a> — AWS Serverless + Security</h3>
-    <p>
-      Hardened serverless API on AWS using least-privilege IAM, CORS controls, secrets management,
-      and fully automated deployment via CI/CD. No manual steps post-deploy.
-    </p>
-
-    <h3>🎮 <a href="https://github.com/MrGuato/enshrouded-docker" target="_blank" rel="noopener"><code>enshrouded-docker</code></a> — Containerized Game Server (DevOps)</h3>
-    <p>
-      Immutable container infrastructure with runtime auto-update logic, semantic versioning, CI/CD
-      publishing via GitHub Actions, and non-root execution with minimal attack surface. Built through
-      real CI/CD failures — Wine + Docker on Ubuntu 22.04 with WineHQ and Xvfb.
-    </p>
-
-    <h3>🔐 SOAR + EDR Integration — Security Automation</h3>
-    <p>
-      Automated security orchestration workflows integrating EDR with alerting pipelines — custom
-      detection rules, response playbooks, and hardened cloud VMs for telemetry analysis.
-    </p>
-
-    <hr />
-
-    <h2>On the roadmap</h2>
-    <p>Talos Linux · Cilium CNI · Kube-VIP · kube-prometheus-stack</p>
-    <p>Moving from "it works" to "it's observable, resilient, and enterprise-grade."</p>
-
-    <hr />
-
-    <h2>The journey (2016 → now)</h2>
-    <pre><code>2016 → IT Support / Helpdesk
-       Cabling, AV, break-fix, networking fundamentals
-
-2020 → Systems Administrator
-       M365 migrations, HIPAA security program, MDM at scale
-
-2022 → IT Support + Security
-       Vuln management, network config, L1 incident response
-
-2023 → Cloud Admin / Security
-       XDR rollout, CASB, IAM/Conditional Access, hybrid cloud
-
-2024 → Infrastructure Security Eng.
-       IaC, GitOps, DevSecOps, compliance frameworks</code></pre>
-    <p>The homelab is where the theory meets the metal.</p>
-
-    <hr />
-
-    <h2>Certifications &amp; Education</h2>
-    <div class="badges">
-      <span class="badge">CISM®</span>
-      <span class="badge">CompTIA CCAP</span>
-      <span class="badge">CSIS</span>
-      <span class="badge">WGU — Network Engineering &amp; Cybersecurity</span>
-    </div>
-
-    <h2>Tools &amp; Stack</h2>
-    <div class="badges">
-      <span class="badge">Kubernetes / k3s</span>
-      <span class="badge">FluxCD</span>
-      <span class="badge">Azure</span>
-      <span class="badge">Microsoft Sentinel</span>
-      <span class="badge">Splunk / ELK</span>
-      <span class="badge">Nessus / Rapid7</span>
-      <span class="badge">Palo Alto Networks</span>
-      <span class="badge">Zero Trust</span>
-      <span class="badge">NIST CSF</span>
-      <span class="badge">CIS v8</span>
-    </div>
-
-    <h2>Find me</h2>
-    <ul>
-      <li><a href="https://github.com/MrGuato" target="_blank" rel="noopener">GitHub — MrGuato</a></li>
-      <li><a href="https://www.linkedin.com/in/jonathan-deleon-cism/" target="_blank" rel="noopener">LinkedIn — jonathan-deleon-cism</a></li>
-      <li><a href="https://cloud.mrcyberleon.org" target="_blank" rel="noopener">Cloud Site — cloud.mrcyberleon.org</a></li>
-    </ul>
-  </div>
+  </article>
 </BaseLayout>

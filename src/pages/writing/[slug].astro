@@ -1,77 +1,81 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SocialLinks from "../../components/SocialLinks.astro";
 import { getCollection } from "astro:content";
+import { base, isoDate, readingTime, site, sortPosts } from "../../lib/site";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
-  return posts.map((post) => ({ params: { slug: post.slug }, props: post }));
+  const posts = sortPosts(await getCollection("posts"));
+  return posts.map((post, i) => ({
+    params: { slug: post.slug },
+    props: { post, newer: posts[i - 1] ?? null, older: posts[i + 1] ?? null },
+  }));
 }
 
-const post = Astro.props;
-const { Content, remarkPluginFrontmatter } = await post.render();
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const { post, newer, older } = Astro.props;
+const { Content } = await post.render();
 const heroSrc = post.data.hero ? `${base}/${post.data.hero}` : null;
-
-// Estimate reading time (~200 wpm)
-const wordCount = post.body.split(/\s+/).length;
-const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+const tags = post.data.tags ?? [];
+const date = isoDate(post.data.date);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <a href={`${base}/writing`} class="back-link">← Back to Writing</a>
-
-  <!-- Tags above title -->
-  {post.data.tags && post.data.tags.length > 0 && (
-    <div class="post-tags-top">
-      {post.data.tags.map((tag: string) => (
-        <a href={`${base}/writing?tag=${tag}`} class="tag tag-lg">{tag}</a>
-      ))}
+  <article class="post">
+    <div class="crumb">
+      <a href={`${base}/writing`}>Writing</a>
+      <span aria-hidden="true">/</span>
+      <span>{date}</span>
     </div>
-  )}
 
-  <h1 class="post-title">{post.data.title}</h1>
-
-  <!-- Meta bar -->
-  <div class="post-meta-bar">
-    <div class="post-meta-author">
-      <img class="author-avatar" src={`${base}/avatar.png`} alt="Jonathan DeLeon" style="object-fit:cover;" />
-      <div>
-        <div class="author-name">Jonathan DeLeon</div>
-        <div class="author-sub">
-          {post.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-          &nbsp;·&nbsp;{readingTime} min read
+    <header class="post-head">
+      {tags.length > 0 && (
+        <div class="tags">
+          {tags.map((tag) => <a href={`${base}/writing?tag=${tag}`} class="tag">{tag}</a>)}
         </div>
+      )}
+      <h1>{post.data.title}</h1>
+      <div class="post-meta">
+        <time datetime={date}>{date}</time>
+        <span>{readingTime(post.body)} min read</span>
+        <span>{site.author}</span>
       </div>
+    </header>
+
+    {heroSrc && <img class="hero" src={heroSrc} alt="" />}
+
+    <div class="prose">
+      <Content />
     </div>
-  </div>
 
-  {heroSrc && <img class="hero-img" src={heroSrc} alt={post.data.title} />}
-
-  <div class="prose">
-    <Content />
-  </div>
-
-  <!-- Author card at bottom -->
-  <div class="author-card">
-    <img class="author-card-avatar" src={`${base}/avatar.png`} alt="Jonathan DeLeon" style="object-fit:cover;" />
-    <div class="author-card-info">
-      <div class="author-card-name">Jonathan DeLeon <span class="author-card-handle">@MrGuato</span></div>
-      <p class="author-card-bio">Security Engineer based in Boston, MA. Building production-minded infrastructure with a security-first mindset. If it's not committed, it doesn't exist.</p>
-      <div class="author-card-links">
-        <a href="https://github.com/MrGuato" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.linkedin.com/in/jonathan-deleon-cism/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://cloud.mrcyberleon.org" target="_blank" rel="noopener">Cloud Site</a>
+    <aside class="author">
+      <img src={`${base}/avatar.png`} alt="" width="48" height="48" />
+      <div>
+        <b>{site.author} <span class="handle">@{site.handle}</span></b>
+        <p>
+          Infrastructure and security engineer in Boston. Building production-minded
+          infrastructure at home with a security-first mindset. {site.motto}
+        </p>
+        <SocialLinks />
       </div>
-    </div>
-  </div>
+    </aside>
 
-  <!-- Tags at bottom -->
-  {post.data.tags && post.data.tags.length > 0 && (
-    <div class="post-tags-bottom">
-      <span class="post-tags-label">Tagged:</span>
-      {post.data.tags.map((tag: string) => (
-        <a href={`${base}/writing?tag=${tag}`} class="tag tag-lg">{tag}</a>
-      ))}
-    </div>
-  )}
+    <nav class="post-nav" aria-label="Adjacent posts">
+      {older ? (
+        <a class="prev" href={`${base}/writing/${older.slug}`}>
+          <small>Older</small>
+          <span>{older.data.title}</span>
+        </a>
+      ) : (
+        <div></div>
+      )}
+      {newer ? (
+        <a class="next" href={`${base}/writing/${newer.slug}`}>
+          <small>Newer</small>
+          <span>{newer.data.title}</span>
+        </a>
+      ) : (
+        <div></div>
+      )}
+    </nav>
+  </article>
 </BaseLayout>

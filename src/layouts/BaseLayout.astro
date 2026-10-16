@@ -1,61 +1,111 @@
 ---
 import "../styles/global.css";
-const { title = "GitOps Notes", description = "Building. Breaking. Fixing. Securing. Learning — one post at a time." } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+import { site, base } from "../lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : site.name;
+
+const path = Astro.url.pathname.replace(base, "").replace(/\/$/, "") || "/";
+const nav = [
+  { href: "/writing", label: "Writing" },
+  { href: "/projects", label: "Projects" },
+  { href: "/about", label: "About" },
+];
+const isCurrent = (href: string) => path === href || path.startsWith(href + "/");
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
-    <script is:inline>
-      (function() {
-        var saved = localStorage.getItem('theme');
-        if (saved) document.documentElement.setAttribute('data-theme', saved);
-      })();
-    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="MrGuato's GitOps Notes" />
+    <meta property="og:site_name" content={site.name} />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        try {
+          if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.setAttribute("data-theme", "dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
 
   <body>
-    <div class="nav">
-      <div class="nav-inner">
-        <div class="brand"><a href={`${base}/`}>MrGuato's GitOps Notes</a></div>
-        <div style="display:flex;align-items:center;">
-          <a href={`${base}/writing`}>Writing</a>
-          <a href={`${base}/about`}>About</a>
-          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-        </div>
+    <header class="site-head">
+      <div class="wrap head-inner">
+        <a class="brand" href={`${base}/`}>
+          <span class="mark" aria-hidden="true"></span>
+          {site.name}
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          {nav.map((n) => (
+            <a href={`${base}${n.href}`} aria-current={isCurrent(n.href) ? "page" : undefined}>{n.label}</a>
+          ))}
+          <div class="seg" role="group" aria-label="Color theme">
+            <button type="button" data-set-theme="light" aria-pressed="false">Light</button>
+            <button type="button" data-set-theme="dark" aria-pressed="false">Dark</button>
+          </div>
+        </nav>
       </div>
-    </div>
+    </header>
 
-    <main class="container">
+    <main class="wrap">
       <slot />
-      <footer class="footer">Built on GitHub Pages &mdash; Built by Jonathan with love ❤️. If it's not committed, it doesn't exist.</footer>
     </main>
 
+    <footer class="site-foot">
+      <div class="wrap foot-inner">
+        <div>
+          <span>{site.author}</span>
+          <span aria-hidden="true"> / </span>
+          <span class="motto">{site.motto}</span>
+        </div>
+        <nav aria-label="Footer">
+          <a href={site.links.github} target="_blank" rel="noopener">GitHub</a>
+          <a href={site.links.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+          <a href={site.links.cloud} target="_blank" rel="noopener">Cloud site</a>
+          <a href={site.links.source} target="_blank" rel="noopener">Source</a>
+        </nav>
+      </div>
+    </footer>
+
     <script is:inline>
-      (function() {
-        var btn = document.getElementById('theme-toggle');
-        function getTheme() {
-          var saved = localStorage.getItem('theme');
-          if (saved) return saved;
-          return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      (function () {
+        var root = document.documentElement;
+        var buttons = document.querySelectorAll("[data-set-theme]");
+        function current() {
+          return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
         }
-        function applyTheme(theme) {
-          document.documentElement.setAttribute('data-theme', theme);
-          localStorage.setItem('theme', theme);
-          btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        function paint() {
+          var c = current();
+          buttons.forEach(function (b) {
+            var on = b.getAttribute("data-set-theme") === c;
+            b.classList.toggle("on", on);
+            b.setAttribute("aria-pressed", String(on));
+          });
         }
-        applyTheme(getTheme());
-        btn.addEventListener('click', function() {
-          applyTheme(getTheme() === 'dark' ? 'light' : 'dark');
+        buttons.forEach(function (b) {
+          b.addEventListener("click", function () {
+            var t = b.getAttribute("data-set-theme");
+            if (t === "dark") root.setAttribute("data-theme", "dark");
+            else root.removeAttribute("data-theme");
+            try { localStorage.setItem("theme", t); } catch (e) {}
+            paint();
+          });
         });
+        paint();
       })();
     </script>
   </body>

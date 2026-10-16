@@ -1,0 +1,25 @@
+---
+import { base, isoDate, type Post } from "../lib/site";
+
+interface Props {
+  post: Post;
+  maxTags?: number;
+}
+
+const { post, maxTags = 3 } = Astro.props;
+const tags = post.data.tags ?? [];
+---
+
+<a class="row" href={`${base}/writing/${post.slug}`} data-tags={JSON.stringify(tags)}>
+  <time datetime={isoDate(post.data.date)}>{isoDate(post.data.date)}</time>
+  <div>
+    <h3>{post.data.title}</h3>
+    <p>{post.data.description}</p>
+    {tags.length > 0 && (
+      <div class="tags">
+        {tags.slice(0, maxTags).map((t) => <span class="tag">{t}</span>)}
+      </div>
+    )}
+  </div>
+  {post.data.hero && <img class="thumb" src={`${base}/${post.data.hero}`} alt="" loading="lazy" />}
+</a>

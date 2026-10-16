@@ -29,6 +29,27 @@ The layout and page templates are in `src/layouts` and `src/pages`.
 2. start with frontmatter including a title and a date.
 3. write your content in markdown below the frontmatter.
 
+## How to add a project
+
+Projects on the home page and `/projects` come from `src/content/projects`. Each one is a markdown file with frontmatter only:
+
+```md
+---
+name: my-project
+description: "One or two sentences on what it is and why it exists."
+status: active        # active | stable | archived | planned
+repo: https://github.com/MrGuato/my-project
+link: https://example.com   # optional live link
+stack: [k3s, FluxCD]
+started: "2026-04"    # optional, free text
+order: 10             # lower sorts first
+---
+```
+
+## Design
+
+The layout borrows its tokens from the cluster dashboard: square edges, system fonts, mono for metadata, light by default with a dark toggle in the header. Everything lives in `src/styles/global.css`; the colors are the custom properties at the top of that file.
+
 ## How this fits into a gitops workflow
 
 This repo is the source of truth for the notes. You edit files locally, commit changes, and push them to the remote.

@@ -1,0 +1,30 @@
+---
+import type { Project } from "../lib/site";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { name, description, status, repo, link, stack, started } = project.data;
+---
+
+<article class="project">
+  <div class="project-h">
+    <b>{repo ? <a href={repo} target="_blank" rel="noopener">{name}</a> : name}</b>
+    <span class={`status ${status}`}>{status}</span>
+  </div>
+  <p>{description}</p>
+  <div class="project-foot">
+    {stack.length > 0 && (
+      <div class="chips">
+        {stack.map((s) => <span class="chip">{s}</span>)}
+      </div>
+    )}
+    <div class="project-links">
+      {started && <span class="since">since {started}</span>}
+      {repo && <a href={repo} target="_blank" rel="noopener">Repo</a>}
+      {link && <a href={link} target="_blank" rel="noopener">Live</a>}
+    </div>
+  </div>
+</article>

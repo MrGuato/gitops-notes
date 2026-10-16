@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+import { sortProjects } from "../lib/site";
+
+const projects = sortProjects(await getCollection("projects"));
+const active = projects.filter((p) => p.data.status === "active").length;
+const description = "Homelab, security tooling and side projects, with links to the source where it is public.";
+---
+
+<BaseLayout title="Projects" description={description}>
+  <section class="page-h">
+    <div>
+      <div class="eyebrow">
+        Projects
+        <span class="age">{projects.length} total, {active} active</span>
+      </div>
+      <h1>What I'm building</h1>
+      <p class="sub">
+        The homelab is where I test things before they reach production at work. Everything here
+        is declarative, version-controlled and reconciled by Flux where it runs in the cluster.
+      </p>
+    </div>
+  </section>
+
+  <div class="projects">
+    {projects.map((p) => <ProjectCard project={p} />)}
+  </div>
+</BaseLayout>

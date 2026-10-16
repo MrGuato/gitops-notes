@@ -1,112 +1,81 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostRow from "../../components/PostRow.astro";
 import { getCollection } from "astro:content";
+import { sortPosts } from "../../lib/site";
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-const posts = (await getCollection("posts")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-
-// Collect all unique tags
+const posts = sortPosts(await getCollection("posts"));
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
+const description = "All build logs, post-mortems and notes, published through Git.";
 ---
 
-<BaseLayout title="Writing">
-  <section class="hero">
-    <h1>Writing</h1>
-    <p>All build logs and notes, published through Git.</p>
+<BaseLayout title="Writing" description={description}>
+  <section class="page-h">
+    <div>
+      <div class="eyebrow">
+        Writing
+        <span class="age">{posts.length} posts</span>
+      </div>
+      <h1>All posts</h1>
+      <p class="sub">{description} Filter by tag or read from the top.</p>
+    </div>
   </section>
 
-  <!-- Tag filter bar -->
-  <div class="tag-filter-bar">
-    <button class="tag-filter active" data-tag="all">All</button>
+  <div class="filters" role="group" aria-label="Filter by tag">
+    <button type="button" class="filter on" data-tag="all" aria-pressed="true">All</button>
     {allTags.map((tag) => (
-      <button class="tag-filter" data-tag={tag}>{tag}</button>
+      <button type="button" class="filter" data-tag={tag} aria-pressed="false">{tag}</button>
     ))}
   </div>
 
-  <!-- Post count -->
-  <div class="posts-count" id="posts-count">{posts.length} posts</div>
+  <div class="count" id="posts-count" aria-live="polite">{posts.length} posts</div>
 
-  <section class="grid" id="posts-grid">
-    {posts.map((p) => (
-      <a
-        class="card"
-        href={`${base}/writing/${p.slug}`}
-        data-tags={JSON.stringify(p.data.tags ?? [])}
-      >
-        <div class="card-body">
-          <div class="meta">
-            {p.data.date.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-            {p.data.tags && p.data.tags.slice(0, 2).map((tag: string) => (
-              <span class="tag tag-sm">{tag}</span>
-            ))}
-          </div>
-          <h2>{p.data.title}</h2>
-          <p>{p.data.description}</p>
-        </div>
-
-        {p.data.hero ? (
-          <img
-            class="thumb"
-            src={`${base}/${p.data.hero}`}
-            alt=""
-            loading="lazy"
-          />
-        ) : null}
-      </a>
-    ))}
-  </section>
+  <div class="list" id="posts-list">
+    {posts.map((p) => <PostRow post={p} maxTags={4} />)}
+    <div class="row-empty" id="posts-empty" hidden>No posts with that tag.</div>
+  </div>
 </BaseLayout>
 
 <script>
-  // Read tag from URL on page load
   const params = new URLSearchParams(window.location.search);
   const initialTag = params.get("tag") ?? "all";
 
-  const buttons = document.querySelectorAll<HTMLButtonElement>(".tag-filter");
-  const cards = document.querySelectorAll<HTMLElement>(".card");
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".filter");
+  const rows = document.querySelectorAll<HTMLElement>("#posts-list .row");
   const countEl = document.getElementById("posts-count");
+  const emptyEl = document.getElementById("posts-empty");
 
   function filterByTag(tag: string) {
     let visible = 0;
-    cards.forEach((card) => {
-      const tags: string[] = JSON.parse(card.dataset.tags ?? "[]");
+    rows.forEach((row) => {
+      const tags: string[] = JSON.parse(row.dataset.tags ?? "[]");
       const show = tag === "all" || tags.includes(tag);
-      card.style.display = show ? "" : "none";
+      row.hidden = !show;
       if (show) visible++;
     });
 
     buttons.forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.tag === tag);
+      const on = btn.dataset.tag === tag;
+      btn.classList.toggle("on", on);
+      btn.setAttribute("aria-pressed", String(on));
     });
 
+    if (emptyEl) emptyEl.hidden = visible > 0;
     if (countEl) {
-      countEl.textContent = tag === "all"
-        ? `${visible} posts`
-        : `${visible} post${visible !== 1 ? "s" : ""} tagged "${tag}"`;
+      countEl.textContent =
+        tag === "all" ? `${visible} posts` : `${visible} post${visible === 1 ? "" : "s"} tagged ${tag}`;
     }
   }
 
-  // Apply initial tag from URL
   filterByTag(initialTag);
 
-  // Activate buttons on click
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const tag = btn.dataset.tag ?? "all";
       filterByTag(tag);
-      // Update URL without reload
       const url = new URL(window.location.href);
-      if (tag === "all") {
-        url.searchParams.delete("tag");
-      } else {
-        url.searchParams.set("tag", tag);
-      }
+      if (tag === "all") url.searchParams.delete("tag");
+      else url.searchParams.set("tag", tag);
       history.replaceState(null, "", url.toString());
     });
   });

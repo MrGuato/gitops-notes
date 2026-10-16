@@ -1,109 +1,114 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PostRow from "../components/PostRow.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import SocialLinks from "../components/SocialLinks.astro";
 import { getCollection } from "astro:content";
+import { base, isoDate, readingTime, sortPosts, sortProjects } from "../lib/site";
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-const posts = (await getCollection("posts")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const featured = posts[0];
-const recent = posts.slice(1, 4);
+const posts = sortPosts(await getCollection("posts"));
+const projects = sortProjects(await getCollection("projects"));
+const [featured, ...rest] = posts;
+const recent = rest.slice(0, 5);
+const activeProjects = projects.filter((p) => p.data.status === "active").length;
 ---
 
-<BaseLayout title="GitOps Notes">
-  <!-- Profile / README-style header -->
-  <section class="profile-header">
-    <img class="profile-avatar" src={`${base}/avatar.png`} alt="Jonathan DeLeon" />
-    <div class="profile-info">
-      <h1 class="profile-name">Jonathan DeLeon <span class="profile-handle">@MrGuato</span></h1>
-      <p class="profile-bio">
-        Security Engineer · GitOps Practitioner · Builder. Building. Breaking. Fixing. Securing. Learning — one commit at a time.
+<BaseLayout>
+  <section class="page-h">
+    <div>
+      <div class="eyebrow">
+        <span class="dot ok" aria-hidden="true"></span>
+        Build log
+        {featured && <span class="age">last entry {isoDate(featured.data.date)}</span>}
+      </div>
+      <h1>Jonathan DeLeon</h1>
+      <p class="sub">
+        Infrastructure and security engineer in Boston. I run a mixed-architecture k3s homelab
+        managed with FluxCD and write down what I build, what breaks, and how I fixed it.
       </p>
-      <div class="profile-meta">
-        <span class="profile-stat">📍 Boston, MA</span>
-        <span class="profile-stat">🔐 CISM®</span>
-        <span class="profile-stat">☁️ Kubernetes / k3s / FluxCD</span>
-      </div>
-      <div class="profile-links">
-        <a class="profile-link" href="https://github.com/MrGuato" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-        <a class="profile-link" href="https://www.linkedin.com/in/jonathan-deleon-cism/" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 1.146C0 .514.53 0 1.183 0h13.634C15.47 0 16 .514 16 1.146v13.708c0 .632-.53 1.146-1.183 1.146H1.183C.53 16 0 15.486 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
-          LinkedIn
-        </a>
-        <a class="profile-link" href="https://cloud.mrcyberleon.org" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5h-2v-2a.5.5 0 0 0-1 0v2h-2a.5.5 0 0 0 0 1h2v2a.5.5 0 0 0 1 0v-2h2a.5.5 0 0 0 0-1z"/></svg>
-          Cloud Site
-        </a>
-      </div>
+      <SocialLinks />
+    </div>
+    <div class="kv-list">
+      <div class="kv"><span class="k">Role</span><span class="v">Infrastructure Security Engineer</span></div>
+      <div class="kv"><span class="k">Cert</span><span class="v">CISM</span></div>
+      <div class="kv"><span class="k">Stack</span><span class="v">k3s / FluxCD / SOPS</span></div>
+      <div class="kv"><span class="k">Handle</span><span class="v">@MrGuato</span></div>
     </div>
   </section>
 
-  <!-- About this repo -->
-  <section class="readme-section">
-    <div class="readme-header">
-      <span class="readme-icon">📖</span>
-      <span>README.md</span>
+  <div class="tiles">
+    <div class="tile">
+      <div class="t-k">Posts</div>
+      <div class="t-v">{posts.length}</div>
+      <div class="t-s">published through Git</div>
     </div>
-    <div class="readme-body">
-      <p>This is my personal build log — raw notes, post-mortems, and deep-dives from running a home Kubernetes cluster, building security tooling, and learning in public. Everything is version-controlled and deployed via GitOps.</p>
-      <div class="readme-stats">
-        <span class="readme-stat"><strong>{posts.length}</strong> posts</span>
-        <span class="readme-stat"><strong>Astro</strong> framework</span>
-        <span class="readme-stat"><strong>GitHub Pages</strong> hosting</span>
-        <span class="readme-stat"><strong>GitOps</strong> workflow</span>
-      </div>
+    <div class="tile">
+      <div class="t-k">Projects</div>
+      <div class="t-v">{projects.length}</div>
+      <div class="t-s">{activeProjects} active</div>
     </div>
-  </section>
+    <div class="tile">
+      <div class="t-k">Last entry</div>
+      <div class="t-v">{featured ? isoDate(featured.data.date) : "none"}</div>
+      <div class="t-s">{featured ? `${readingTime(featured.body)} min read` : ""}</div>
+    </div>
+    <div class="tile">
+      <div class="t-k">Deploy</div>
+      <div class="t-v">main</div>
+      <div class="t-s">GitHub Pages via Actions</div>
+    </div>
+  </div>
 
-  <!-- Featured post -->
   {featured && (
-    <section class="featured-section">
-      <h2 class="section-label">Featured Post</h2>
-      <a class="featured-card" href={`${base}/writing/${featured.slug}`}>
+    <section class="section">
+      <div class="sec-h">
+        <h2>Latest post</h2>
+        <a class="meta" href={`${base}/writing`}>All posts</a>
+      </div>
+      <a class="feature" href={`${base}/writing/${featured.slug}`}>
         {featured.data.hero && (
-          <div class="featured-img-wrap">
-            <img src={`${base}/${featured.data.hero}`} alt={featured.data.title} loading="lazy" />
+          <div class="feature-img">
+            <img src={`${base}/${featured.data.hero}`} alt="" />
           </div>
         )}
-        <div class="featured-content">
-          <div class="featured-meta">
-            {featured.data.date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-            {featured.data.tags && featured.data.tags.slice(0, 3).map((tag: string) => (
-              <span class="tag">{tag}</span>
-            ))}
+        <div class="feature-body">
+          <div class="post-meta">
+            <time datetime={isoDate(featured.data.date)}>{isoDate(featured.data.date)}</time>
+            <span>{readingTime(featured.body)} min read</span>
           </div>
-          <h3 class="featured-title">{featured.data.title}</h3>
-          <p class="featured-desc">{featured.data.description}</p>
-          <span class="featured-cta">Read post →</span>
+          <h3>{featured.data.title}</h3>
+          <p>{featured.data.description}</p>
+          {featured.data.tags && (
+            <div class="tags">
+              {featured.data.tags.slice(0, 4).map((t) => <span class="tag">{t}</span>)}
+            </div>
+          )}
+          <span class="read-more">Read post</span>
         </div>
       </a>
     </section>
   )}
 
-  <!-- Recent posts -->
   {recent.length > 0 && (
-    <section>
-      <div class="section-header">
-        <h2 class="section-label">Recent Posts</h2>
-        <a href={`${base}/writing`} class="section-more">View all →</a>
+    <section class="section">
+      <div class="sec-h">
+        <h2>Recent writing</h2>
+        <span class="meta">{posts.length} posts</span>
       </div>
-      <div class="grid">
-        {recent.map((p) => (
-          <a class="card" href={`${base}/writing/${p.slug}`}>
-            <div class="card-body">
-              <div class="meta">
-                {p.data.date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
-                {p.data.tags && p.data.tags.slice(0, 2).map((tag: string) => (
-                  <span class="tag tag-sm">{tag}</span>
-                ))}
-              </div>
-              <h2>{p.data.title}</h2>
-              <p>{p.data.description}</p>
-            </div>
-            {p.data.hero && <img class="thumb" src={`${base}/${p.data.hero}`} alt="" loading="lazy" />}
-          </a>
-        ))}
+      <div class="list">
+        {recent.map((p) => <PostRow post={p} />)}
+      </div>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="section">
+      <div class="sec-h">
+        <h2>Projects</h2>
+        <a class="meta" href={`${base}/projects`}>All projects</a>
+      </div>
+      <div class="projects">
+        {projects.slice(0, 4).map((p) => <ProjectCard project={p} />)}
       </div>
     </section>
   )}
